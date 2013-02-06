@@ -44,3 +44,16 @@ local.properties
 
 # PDT-specific
 .buildpath
+
+# Mac 
+!.gitignore
+nbproject/*
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Icon?
+ehthumbs.db
+Thumbs.db
+*.swp
