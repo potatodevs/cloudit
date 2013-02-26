@@ -9,6 +9,7 @@
 
 package com.tomasvitek.android.cloudapp;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -19,6 +20,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.database.Cursor;
+import android.graphics.Shader.TileMode;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -273,7 +276,11 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
         
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
-    }
+        BitmapDrawable bg = (BitmapDrawable)getResources().getDrawable(R.drawable.nav_blue_bg);
+        bg.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
+        getSupportActionBar().setBackgroundDrawable(bg);
+        
+        }
 
 	@Override
 	public void onSharedPreferenceChanged(SharedPreferences arg0, String arg1) {
