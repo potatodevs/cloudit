@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,9 +36,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-       
         setContentView(R.layout.login);
-        
         Button log = (Button) findViewById(R.id.loginButton);
         log.setOnClickListener(new OnClickListener() {
 			

@@ -1,5 +1,10 @@
 <resources>
 
     <style name="AppTheme" parent="android:Theme.Light" />
-
+<style name="splashButton">
+        <item name="android:textSize">@dimen/button_text_size</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:background">@drawable/button_splash_background_selector</item>
+        <item name="android:minHeight">36.0dip</item>
+    </style>
 </resources>

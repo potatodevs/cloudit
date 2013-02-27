@@ -1,49 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_bg" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@drawable/splash_gradient"
+    android:fadingEdge="none"
+    android:fillViewport="true" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
 
-    <EditText
-        android:id="@+id/emailField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress" >
-        <requestFocus />
-        </EditText>
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15.0dip"
+            android:layout_marginRight="15.0dip"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:padding="10.0dip" >
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/password"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+            <EditText
+                android:id="@+id/emailField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2.0dip"
+                android:layout_marginTop="10.0dip"
+                android:background="@drawable/textfield_selector"
+                android:fadingEdgeLength="0.0dip"
+                android:hint="@string/email"
+                android:inputType="textEmailAddress"
+                android:textColor="#ffffffff"
+                android:textColorHint="#ff88cee7"
+                android:textSize="18.0sp" />
 
-    <EditText
-        android:id="@+id/passwordField"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword" >
+            <EditText
+                android:id="@+id/passwordField"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="7.0dip"
+                android:layout_marginTop="5.0dip"
+                android:background="@drawable/textfield_selector"
+                android:hint="@string/password"
+                android:imeOptions="actionDone"
+                android:inputType="textPassword"
+                android:textColor="#ffffffff"
+                android:textColorHint="#ff88cee7"
+                android:textSize="18.0sp" />
 
-    </EditText>
+            <Button
+                android:id="@+id/loginButton"
+                style="@style/splashButton"
+                android:layout_width="fill_parent"
+                android:layout_height="46.0dip"
+                android:layout_marginTop="5.0dip"
+                android:gravity="center"
+                android:text="@string/login"
+                android:textColor="@color/btn_splash_text_color" />
+        </LinearLayout>
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/loginButton"
-        android:layout_width="172dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/splash_button"
-        android:text="@string/login"
-        android:textColor="@drawable/button_states_splash" />
-
-</LinearLayout>
+</ScrollView>
