@@ -37,6 +37,7 @@ public class LoginActivity extends BaseActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        getSupportActionBar().hide();
         Button log = (Button) findViewById(R.id.loginButton);
         log.setOnClickListener(new OnClickListener() {
 			
