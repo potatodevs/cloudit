@@ -22,6 +22,7 @@ project.properties
 .project
 
 *.pydevproject
+
 .metadata
 bin/**
 tmp/**

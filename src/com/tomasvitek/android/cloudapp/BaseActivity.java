@@ -9,7 +9,6 @@
 
 package com.tomasvitek.android.cloudapp;
 
-import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
