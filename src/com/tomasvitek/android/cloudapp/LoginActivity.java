@@ -9,10 +9,6 @@
 
 package com.tomasvitek.android.cloudapp;
 
-import com.actionbarsherlock.view.Menu;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-import com.tomasvitek.android.cloudapp.tools.EmailValidator;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -25,6 +21,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.actionbarsherlock.view.Menu;
+import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
+import com.tomasvitek.android.cloudapp.tools.EmailValidator;
 
 public class LoginActivity extends BaseActivity {
     
