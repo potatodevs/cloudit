@@ -43,7 +43,7 @@ public class Start extends BaseActivity {
     	    startActivity(intent);
         }
         else {
-        	if (!EmailValidator.validate(email) || password.equals("")) {
+        	if (!EmailValidator.isValidEmail(email) || password.equals("")) {
 			 	Intent intent = new Intent(this, LoginActivity.class);
 		    	startActivity(intent);						
 			}

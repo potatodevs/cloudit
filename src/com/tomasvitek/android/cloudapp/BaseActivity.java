@@ -180,7 +180,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
     		String email = prefs.getString("email", "");
     		String password = prefs.getString("password", "");
     		
-    		if (!EmailValidator.validate(email) || password.equals("")) {
+    		if (!EmailValidator.isValidEmail(email) || password.equals("")) {
     			 	Intent intent = new Intent(this, LoginActivity.class);
     		    	startActivity(intent);						
     		}

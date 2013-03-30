@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
 						String email = utext.getText().toString();
 						String password = ptext.getText().toString();
 						
-						if (EmailValidator.validate(email)) {				
+						if (EmailValidator.isValidEmail(email)) {				
 							if (!password.equals("")) {
 								
 								ProgressDialog dialog = ProgressDialog.show(LoginActivity.this, "", "Loggin' in...", true);
