@@ -2,7 +2,7 @@
  * EmailValidator
  *
  * @copyright   Copyright (c) 2013 Tomas Vitek
- * @author      Tomas Vitek
+ * @author      Tomas Vitek, Yogesh Nagarur
  */
 
 package com.tomasvitek.android.cloudapp.tools;
