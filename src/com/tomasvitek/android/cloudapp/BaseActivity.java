@@ -68,11 +68,11 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	    public boolean onCreateOptionsMenu(Menu menu) {
 
 			addItem = menu.add(0, MENU_ITEM_ADD, 0, "Add");
-			addItem.setIcon(android.R.drawable.ic_menu_add);
+			addItem.setIcon(R.drawable.ic_action_upload);
 			addItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 			 
 			refreshItem = menu.add(0, MENU_ITEM_REFRESH, 0, "Refresh");
-			refreshItem.setIcon(android.R.drawable.ic_popup_sync);
+			refreshItem.setIcon(R.drawable.ic_action_refresh);
 		    refreshItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		        
 		    SubMenu sub = menu.addSubMenu("Menu");
@@ -80,7 +80,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		    logoutItem = sub.add(0, MENU_ITEM_LOGOUT, 0, "Log out");
 		    aboutItem = sub.add(0, MENU_ITEM_ABOUT, 0, "About");
 	        sub.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-	        sub.getItem().setIcon(android.R.drawable.ic_menu_more);
+	        sub.getItem().setIcon(R.drawable.ic_action_overflow);
 
 	        return true;
 	    }
