@@ -25,29 +25,27 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 	ProgressDialog dialog;
 	BaseActivity act;
-	
+
 	public FileUploadAsyncTask(BaseActivity act, ProgressDialog dialog) {
 		this.act = act;
 		this.dialog = dialog;
-		
+
 	}
-	
-	
+
 	@Override
-    protected Object doInBackground(String... path) {
+	protected Object doInBackground(String... path) {
 		try {
 			CloudApp api = ((CloudAppApplication) act.getApplication()).getCloudAppApi();
-		
-			
-			if (api == null) Log.e("API", "is null!!");
+
+			if (api == null)
+				Log.e("API", "is null!!");
 
 			File file = new File(path[0]);
-		
+
 			Log.e("File uploaded", file.getAbsolutePath().toString());
-		
-		
+
 			api.upload(file, new CloudAppProgressListener() {
-				
+
 				@Override
 				public void transferred(long trans, long total) {
 					publishProgress((int) (total * 100 / trans));
@@ -57,27 +55,28 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 			// TODO toast?
 			Log.e("Error", "when uploading file");
 		}
-		
+
 		return null;
-    }
-	
-	 @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
-        dialog.show();
-    }
-	 
+	}
+
+	@Override
+	protected void onPreExecute() {
+		super.onPreExecute();
+		dialog.show();
+	}
+
 	@Override
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
+		act.refresh();
 	}
 
-    @Override
-    protected void onProgressUpdate(Integer... progress) {
-        super.onProgressUpdate(progress);
-        Log.e("progress", progress.toString());
-        dialog.setProgress(progress[0]);
-    }
-	
+	@Override
+	protected void onProgressUpdate(Integer... progress) {
+		super.onProgressUpdate(progress);
+		// Log.e("progress", progress.toString());
+		dialog.setProgress(progress[0]);
+	}
+
 }
