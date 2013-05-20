@@ -8,6 +8,7 @@ Uses following libraries:
 - AndroidSherlockBar ~ http://actionbarsherlock.com
 - CloudAppJava ~ https://github.com/simong/CloudAppJava
 - Apache commons-lang3-3.1 ~ http://commons.apache.org/lang/
+- aFileChooser ~ https://github.com/iPaulPro/aFileChooser
 
 How to build and run the project:
 ---------------------------------
