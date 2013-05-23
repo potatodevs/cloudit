@@ -18,6 +18,7 @@ import com.tomasvitek.android.cloudapp.models.Adapter;
 import com.tomasvitek.android.cloudapp.models.ListItem;
 import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -95,6 +96,7 @@ public class ListActivity extends BaseActivity {
 		inflater.inflate(R.menu.item_menu, menu);
 	}
 
+	@SuppressLint("ServiceCast")
 	@SuppressWarnings("deprecation")
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info;
