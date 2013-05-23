@@ -113,6 +113,7 @@ public class ListActivity extends BaseActivity {
 		ListItem i = items.get(info.position);
 		final String name = i.name;
 		final String url = i.contentUrl;
+		final String inDirectURL = i.url;
 		final CloudAppItem.Type type = i.getItemType();
 
 		switch (item.getItemId()) {
@@ -120,11 +121,11 @@ public class ListActivity extends BaseActivity {
 			int sdk = android.os.Build.VERSION.SDK_INT;
 			if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
 				android.text.ClipboardManager clipboard = (android.text.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-				clipboard.setText(url);
+				clipboard.setText(inDirectURL);
 			} else {
 				android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
 				android.content.ClipData clip = android.content.ClipData.newPlainText(name
-						+ "'s url", url);
+						+ "'s url", inDirectURL);
 				clipboard.setPrimaryClip(clip);
 			}
 			Toast.makeText(this, "Link for '" + name + "' has been copied into your clipboard.",

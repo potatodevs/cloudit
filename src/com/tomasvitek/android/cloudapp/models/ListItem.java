@@ -25,7 +25,7 @@ public class ListItem implements Serializable, CloudAppItem {
 	
 	String href;
 	public String name;
-	String url;
+	public String url;
 	public String contentUrl;
 	boolean isPrivate;
 	boolean isSubscribed;
