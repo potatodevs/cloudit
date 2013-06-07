@@ -9,6 +9,7 @@
 
 package com.tomasvitek.android.cloudapp;
 
+import com.crashlytics.android.Crashlytics;
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
@@ -31,8 +32,9 @@ public class Start extends BaseActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
+        Crashlytics.start(this);
         
+		setContentView(R.layout.activity_start);
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		String email = prefs.getString("email", "");
 		String password = prefs.getString("password", "");
