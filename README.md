@@ -19,6 +19,6 @@ How to build and run the project:
 
 3. Download **[aFileChooser](https://github.com/iPaulPro/aFileChooser)** and import the library project. Just like how it was done with Android Sherlock Bar.
 
-4. Follow the instructions on Crashlytics to install the SDK from Eclipse. It is pretty easy.
+4. Follow the instructions on Crashlytics to install the SDK from Eclipse. It is pretty easy. (https://www.crashlytics.com/downloads/plugins)
 
 3. Build and run!
