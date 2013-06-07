@@ -49,6 +49,7 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 
+import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class BaseActivity extends SherlockActivity implements OnSharedPreferenceChangeListener {
@@ -200,10 +201,10 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	}
 
 	protected void chooseFile() {
-		Intent intent = new Intent();
+		Intent intent = new Intent(BaseActivity.this,FileChooserActivity.class);
 		intent.setType("*/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select file"), SELECT_FILE);
+		startActivityForResult(intent, SELECT_FILE);
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -281,7 +282,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Dialog dialog;
 		switch (id) {
 		case DIALOG_ABOUT:
-			builder.setTitle("CloudApp for Android").setMessage("Bla bla bla bla and bla.")
+			builder.setTitle("CloudApp for Android").setMessage("Manage and share your CloudApp drops right from your Android device. \nMade by Invaders.")
 					.setCancelable(false)
 					// .setIcon(R.drawable.icon)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
