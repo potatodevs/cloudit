@@ -9,6 +9,7 @@
 
 package com.tomasvitek.android.cloudapp;
 
+import com.crashlytics.android.Crashlytics;
 import com.tomasvitek.android.cloudapp.models.CustomWebViewClient;
 
 import android.app.ProgressDialog;
@@ -23,7 +24,7 @@ public class WebViewActivity extends BaseActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
 		super.onCreate(savedInstanceState);
-		
+        Crashlytics.start(this);
 		setContentView(R.layout.webview);
  
 		CloudAppApplication app = (CloudAppApplication) getApplication();

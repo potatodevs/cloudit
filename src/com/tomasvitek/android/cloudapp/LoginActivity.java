@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
+import com.crashlytics.android.Crashlytics;
 import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.tools.EmailValidator;
 
@@ -36,6 +37,7 @@ public class LoginActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
 		setContentView(R.layout.login);
 		getSupportActionBar().hide();
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);

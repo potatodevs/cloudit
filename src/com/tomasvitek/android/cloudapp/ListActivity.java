@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
+import com.crashlytics.android.Crashlytics;
 
 import com.tomasvitek.android.cloudapp.models.Adapter;
 import com.tomasvitek.android.cloudapp.models.ListItem;
@@ -49,6 +50,8 @@ public class ListActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
+
 		setContentView(R.layout.list);
 
 		final ListView list = (ListView) findViewById(R.id.list);

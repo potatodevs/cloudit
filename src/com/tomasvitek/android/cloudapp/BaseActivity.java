@@ -48,6 +48,7 @@ import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
+import com.crashlytics.android.Crashlytics;
 
 import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
@@ -248,6 +249,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+        Crashlytics.start(this);
 
 		setContentView(R.layout.main);
 
