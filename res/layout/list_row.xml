@@ -9,7 +9,6 @@
         android:layout_height="wrap_content"
         android:padding="2dip"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/image_bg"
         android:layout_marginRight="20dip">
  
         <ImageView
