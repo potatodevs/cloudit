@@ -18,6 +18,7 @@ import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object> {
 
@@ -36,12 +37,15 @@ public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object
 		try {
 			CloudApp api = ((CloudAppApplication) act.getApplication()).getCloudAppApi();
 			
+			if (api == null)
+				Log.e("API", "is null!!");
+			
 			CloudAppItem item = items[0];		
 			
 			api.delete(item);
 		} catch (CloudAppException e) {
 			// TODO toast?
-			Log.e("Error", "when uploading file");
+			Log.e("Error", "when deleting file");
 		}
 		
 		return null;
@@ -57,6 +61,8 @@ public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
+		Toast.makeText(act, "File deleted!", Toast.LENGTH_LONG).show();
+		act.refresh();
 	}
 
     @Override

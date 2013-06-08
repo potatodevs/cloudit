@@ -129,9 +129,17 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 						alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
-								new Thread(new AddBookmarkThread(getApplicationContext(),
-										BaseActivity.this, input1.getText().toString(), input2
-												.getText().toString())).start();
+								Thread bookmarkThread = new Thread(new AddBookmarkThread(
+										getApplicationContext(), BaseActivity.this, input1
+												.getText().toString(), input2.getText().toString()));
+								bookmarkThread.start();
+								try {
+									bookmarkThread.join();
+								} catch (InterruptedException e) {
+									e.printStackTrace();
+								} finally {
+									refresh();
+								}
 							}
 						});
 
@@ -202,7 +210,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	}
 
 	protected void chooseFile() {
-		Intent intent = new Intent(BaseActivity.this,FileChooserActivity.class);
+		Intent intent = new Intent(BaseActivity.this, FileChooserActivity.class);
 		intent.setType("*/*");
 		intent.setAction(Intent.ACTION_GET_CONTENT);
 		startActivityForResult(intent, SELECT_FILE);
@@ -249,7 +257,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+		Crashlytics.start(this);
 
 		setContentView(R.layout.main);
 
@@ -284,7 +292,9 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Dialog dialog;
 		switch (id) {
 		case DIALOG_ABOUT:
-			builder.setTitle("CloudApp for Android").setMessage("Manage and share your CloudApp drops right from your Android device. \nMade by Invaders.")
+			builder.setTitle("CloudApp for Android")
+					.setMessage(
+							"Manage and share your CloudApp drops right from your Android device. \nMade by Invaders.")
 					.setCancelable(false)
 					// .setIcon(R.drawable.icon)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {

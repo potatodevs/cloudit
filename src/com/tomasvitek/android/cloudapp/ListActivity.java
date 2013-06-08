@@ -17,6 +17,7 @@ import com.crashlytics.android.Crashlytics;
 
 import com.tomasvitek.android.cloudapp.models.Adapter;
 import com.tomasvitek.android.cloudapp.models.ListItem;
+import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
 
 import android.annotation.SuppressLint;
@@ -54,7 +55,7 @@ public class ListActivity extends BaseActivity {
 
 		setContentView(R.layout.list);
 
-		final ListView list = (ListView) findViewById(R.id.list);
+		final ListView list = (ListView) findViewById(android.R.id.list);
 
 		registerForContextMenu(list);
 
@@ -207,6 +208,9 @@ public class ListActivity extends BaseActivity {
 			 * Toast.makeText(this, name + " was deleted!",
 			 * Toast.LENGTH_SHORT).show();
 			 */
+			final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "","Deleting file...", true);
+			FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
+			del.execute(i);
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -226,7 +230,7 @@ public class ListActivity extends BaseActivity {
 	}
 
 	public void taskDone(String email, String password) {
-		ListView list = (ListView) findViewById(R.id.list);
+		ListView list = (ListView) findViewById(android.R.id.list);
 
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
