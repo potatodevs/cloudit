@@ -28,6 +28,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="image/*" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".LoginActivity"
@@ -55,7 +62,10 @@
                 <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
-        <meta-data android:name="com.crashlytics.ApiKey" android:value="2ab00aee7ba2065fa92c62dad840ba1d774aa424"/>
+
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="2ab00aee7ba2065fa92c62dad840ba1d774aa424" />
     </application>
 
 </manifest>
