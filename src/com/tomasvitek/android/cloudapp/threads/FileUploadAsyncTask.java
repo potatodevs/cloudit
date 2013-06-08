@@ -11,26 +11,24 @@ package com.tomasvitek.android.cloudapp.threads;
 
 import java.io.File;
 
+import android.app.ProgressDialog;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppProgressListener;
 import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
-import android.app.ProgressDialog;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
-
 public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 	ProgressDialog dialog;
 	BaseActivity act;
 
-	public FileUploadAsyncTask(BaseActivity act, ProgressDialog dialog) {
+	public FileUploadAsyncTask(BaseActivity act) {
 		this.act = act;
-		this.dialog = dialog;
-
 	}
 
 	@Override
@@ -49,11 +47,11 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 				@Override
 				public void transferred(long trans, long total) {
-					publishProgress((int) (total * 100 / trans));
+					publishProgress((int)(((float)trans * 100f) / (float)total));
 				}
 			});
 		} catch (CloudAppException e) {
-			// TODO toast?
+			Toast.makeText(act, "Error when uploading file. Try again.", Toast.LENGTH_LONG).show();
 			Log.e("Error", "when uploading file");
 		}
 
@@ -63,7 +61,14 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
-		dialog.show();
+		dialog = new ProgressDialog(act);
+		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        dialog.setMessage("Uploading...");
+        dialog.setIndeterminate(false);
+        dialog.setCancelable(false);   
+        dialog.setMax(100);
+        dialog.setProgress(0);
+        dialog.show();
 	}
 
 	@Override
@@ -77,7 +82,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	@Override
 	protected void onProgressUpdate(Integer... progress) {
 		super.onProgressUpdate(progress);
-		// Log.e("progress", progress.toString());
+		Log.e("progress", progress[0].toString());
 		dialog.setProgress(progress[0]);
 	}
 

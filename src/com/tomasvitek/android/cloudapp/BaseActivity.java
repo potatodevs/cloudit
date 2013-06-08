@@ -14,7 +14,6 @@ import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -230,24 +229,19 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			if (requestCode == SELECT_FILE) {
 				Uri uri = data.getData();
 
-				final ProgressDialog dialog = ProgressDialog.show(BaseActivity.this, "",
-						"Uploading file...", true);
-
 				Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT);
 				File file = FileUtils.getFile(uri);
 				String path = file.getAbsolutePath();
-				new FileUploadAsyncTask(BaseActivity.this, dialog).execute(path);
+				new FileUploadAsyncTask(BaseActivity.this).execute(path);
 
 			}
 
 			if (requestCode == SELECT_IMAGE) {
 				Uri uri = data.getData();
-
-				final ProgressDialog dialog = ProgressDialog.show(BaseActivity.this, "", "Uploading image...", true);
-
+				
 				String[] path = { getRealPathFromURI(uri) };
 
-				new FileUploadAsyncTask(BaseActivity.this, dialog).execute(path);
+				new FileUploadAsyncTask(BaseActivity.this).execute(path);
 
 			}
 		}
