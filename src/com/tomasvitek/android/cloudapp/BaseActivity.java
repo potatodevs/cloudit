@@ -10,6 +10,7 @@
 package com.tomasvitek.android.cloudapp;
 
 import java.io.File;
+import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -37,21 +38,19 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.R;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.SubMenu;
+import com.actionbarsherlock.widget.ShareActionProvider;
+import com.crashlytics.android.Crashlytics;
+import com.ipaulpro.afilechooser.FileChooserActivity;
+import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.tomasvitek.android.cloudapp.R.anim;
 import com.tomasvitek.android.cloudapp.threads.AddBookmarkThread;
 import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.tools.EmailValidator;
-
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
-import com.actionbarsherlock.view.SubMenu;
-import com.crashlytics.android.Crashlytics;
-
-import com.ipaulpro.afilechooser.FileChooserActivity;
-import com.ipaulpro.afilechooser.utils.FileUtils;
 
 public class BaseActivity extends SherlockActivity implements OnSharedPreferenceChangeListener {
 
@@ -67,6 +66,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	MenuItem refreshItem;
 	MenuItem logoutItem;
 	MenuItem aboutItem;
+	ShareActionProvider mShareActionProvider;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -126,12 +126,19 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 						final EditText input1 = (EditText) textEntryView.findViewById(R.id.title);
 						final EditText input2 = (EditText) textEntryView.findViewById(R.id.url);
-
 						alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
+								String urlInput;
+								if (input2.getText().toString().toLowerCase(Locale.getDefault())
+										.contains("http://".toLowerCase(Locale.getDefault())) == false) {
+									urlInput = "http://"
+											+ input2.getText().toString().toLowerCase(Locale.getDefault());
+								} else {
+									urlInput = input2.getText().toString().toLowerCase(Locale.getDefault());
+								}
 								Thread bookmarkThread = new Thread(new AddBookmarkThread(
 										getApplicationContext(), BaseActivity.this, input1
-												.getText().toString(), input2.getText().toString()));
+												.getText().toString(), urlInput));
 								bookmarkThread.start();
 								try {
 									bookmarkThread.join();
@@ -236,8 +243,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			if (requestCode == SELECT_IMAGE) {
 				Uri uri = data.getData();
 
-				final ProgressDialog dialog = ProgressDialog.show(BaseActivity.this, "",
-						"Uploading image...", true);
+				final ProgressDialog dialog = ProgressDialog.show(BaseActivity.this, "", "Uploading image...", true);
 
 				String[] path = { getRealPathFromURI(uri) };
 

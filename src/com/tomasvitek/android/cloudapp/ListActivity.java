@@ -51,7 +51,7 @@ public class ListActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-        Crashlytics.start(this);
+		Crashlytics.start(this);
 
 		setContentView(R.layout.list);
 
@@ -208,7 +208,8 @@ public class ListActivity extends BaseActivity {
 			 * Toast.makeText(this, name + " was deleted!",
 			 * Toast.LENGTH_SHORT).show();
 			 */
-			final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "","Deleting file...", true);
+			final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
+					"Deleting file...", true);
 			FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
 			del.execute(i);
 			return true;

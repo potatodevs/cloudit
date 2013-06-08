@@ -20,6 +20,7 @@ import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
@@ -69,6 +70,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
+		Toast.makeText(act, "File uploaded!", Toast.LENGTH_LONG).show();
 		act.refresh();
 	}
 
