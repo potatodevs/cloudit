@@ -35,6 +35,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -130,14 +131,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 								String urlInput;
 								if (input2.getText().toString().toLowerCase(Locale.getDefault())
 										.contains("http://".toLowerCase(Locale.getDefault())) == false) {
-									urlInput = "http://"
-											+ input2.getText().toString().toLowerCase(Locale.getDefault());
+									urlInput = "http://" + input2.getText().toString().toLowerCase(Locale.getDefault());
 								} else {
 									urlInput = input2.getText().toString().toLowerCase(Locale.getDefault());
 								}
-								Thread bookmarkThread = new Thread(new AddBookmarkThread(
-										getApplicationContext(), BaseActivity.this, input1
-												.getText().toString(), urlInput));
+								Thread bookmarkThread = new Thread(new AddBookmarkThread(getApplicationContext(),
+										BaseActivity.this, input1.getText().toString(), urlInput));
 								bookmarkThread.start();
 								try {
 									bookmarkThread.join();
@@ -238,7 +237,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			if (requestCode == SELECT_IMAGE) {
 				Uri uri = data.getData();
-				
+
 				String[] path = { getRealPathFromURI(uri) };
 
 				new FileUploadAsyncTask(BaseActivity.this).execute(path);
@@ -260,12 +259,14 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Crashlytics.start(this);
 
 		setContentView(R.layout.main);
-
+		
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.nav_blue_bg);
 		bg.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
 		getSupportActionBar().setBackgroundDrawable(bg);
+		
+		
 
 	}
 
@@ -279,8 +280,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Editor editor = prefs.edit();
-		editor.putString("email", "");
-		editor.putString("password", "");
+		editor.clear();
 		editor.commit();
 
 		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
@@ -304,6 +304,10 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 						}
 					});
 			dialog = builder.create();
+			dialog.show();
+			dialog.getWindow().getAttributes();
+			TextView textView = (TextView) dialog.findViewById(android.R.id.message);
+			textView.setTextSize(15);
 			break;
 		case DIALOG_LOGOUT:
 			builder.setTitle("Log out?").setMessage("Are you sure you want to log out?")
