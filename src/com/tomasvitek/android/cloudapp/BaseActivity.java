@@ -229,7 +229,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			if (requestCode == SELECT_FILE) {
 				Uri uri = data.getData();
 
-				Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT);
+				Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT).show();
 				File file = FileUtils.getFile(uri);
 				String path = file.getAbsolutePath();
 				new FileUploadAsyncTask(BaseActivity.this).execute(path);
@@ -283,7 +283,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		editor.putString("password", "");
 		editor.commit();
 
-		Intent intent = new Intent(this, LoginActivity.class);
+		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
 

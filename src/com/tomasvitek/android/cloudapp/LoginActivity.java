@@ -16,6 +16,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.WindowManager;
@@ -92,5 +93,14 @@ public class LoginActivity extends BaseActivity {
 		if (!email.equals("")) {
 			finish();
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	    if (keyCode == KeyEvent.KEYCODE_BACK) {
+	        moveTaskToBack(true);
+	        return true;
+	    }
+	    return super.onKeyDown(keyCode, event);
 	}
 }
