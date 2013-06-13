@@ -2,5 +2,6 @@
 <lint>
     <issue id="NewApi">
         <ignore path="src/com/tomasvitek/android/cloudapp/ListActivity.java" />
+        <ignore path="src/com/tomasvitek/android/cloudapp/threads/GalleryFileUploadAsyncTask.java" />
     </issue>
 </lint>
