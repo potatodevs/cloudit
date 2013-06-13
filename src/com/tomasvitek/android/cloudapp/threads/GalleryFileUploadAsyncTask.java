@@ -108,6 +108,7 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 		dialog.setProgress(progress[0]);
 	}
 
+	@SuppressWarnings("deprecation")
 	private void notification() {
 		Intent notificationIntent = new Intent(mContext, Start.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);

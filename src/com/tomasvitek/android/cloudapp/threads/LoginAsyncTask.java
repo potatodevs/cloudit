@@ -11,6 +11,13 @@ package com.tomasvitek.android.cloudapp.threads;
 
 import java.util.ArrayList;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
@@ -19,13 +26,6 @@ import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.LoginActivity;
 import com.tomasvitek.android.cloudapp.models.ListItem;
-
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.os.AsyncTask;
-import android.util.Log;
-import android.widget.Toast;
 
 public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 
@@ -40,6 +40,7 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 	protected CloudApp api;
 
 	protected ArrayList<ListItem> items;
+	
 
 	public LoginAsyncTask(BaseActivity activity) {
 		this.context = activity.getApplicationContext();

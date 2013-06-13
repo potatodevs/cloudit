@@ -259,14 +259,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Crashlytics.start(this);
 
 		setContentView(R.layout.main);
-		
+
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 		prefs.registerOnSharedPreferenceChangeListener(this);
 		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.nav_blue_bg);
 		bg.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
 		getSupportActionBar().setBackgroundDrawable(bg);
-		
-		
 
 	}
 

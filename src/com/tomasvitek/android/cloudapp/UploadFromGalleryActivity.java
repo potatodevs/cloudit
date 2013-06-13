@@ -15,21 +15,21 @@ public class UploadFromGalleryActivity extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		 Intent intent = getIntent();
-		 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		    if (Intent.ACTION_SEND.equals(intent.getAction())) {
-		        Bundle extras = intent.getExtras();
-		        if (extras.containsKey(Intent.EXTRA_STREAM)) {
-		            Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
-		            String scheme = uri.getScheme();
-		            if (scheme.equals("content")) {
-		            	String[] path = {getRealPathFromURI(uri)};
-		            	new GalleryFileUploadAsyncTask(UploadFromGalleryActivity.this).execute(path);
-		            }
-		        }
-		    }
+		Intent intent = getIntent();
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		if (Intent.ACTION_SEND.equals(intent.getAction())) {
+			Bundle extras = intent.getExtras();
+			if (extras.containsKey(Intent.EXTRA_STREAM)) {
+				Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
+				String scheme = uri.getScheme();
+				if (scheme.equals("content")) {
+					String[] path = { getRealPathFromURI(uri) };
+					new GalleryFileUploadAsyncTask(UploadFromGalleryActivity.this).execute(path);
+				}
+			}
+		}
 	}
-	
+
 	private String getRealPathFromURI(Uri contentURI) {
 		Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
 		cursor.moveToFirst();
