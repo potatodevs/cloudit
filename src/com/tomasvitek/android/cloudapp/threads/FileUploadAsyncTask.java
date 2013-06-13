@@ -47,7 +47,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 				@Override
 				public void transferred(long trans, long total) {
-					publishProgress((int)(((float)trans * 100f) / (float)total));
+					publishProgress((int) (((float) trans * 100f) / (float) total));
 				}
 			});
 		} catch (CloudAppException e) {
@@ -63,12 +63,12 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 		super.onPreExecute();
 		dialog = new ProgressDialog(act);
 		dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        dialog.setMessage("Uploading...");
-        dialog.setIndeterminate(false);
-        dialog.setCancelable(false);   
-        dialog.setMax(100);
-        dialog.setProgress(0);
-        dialog.show();
+		dialog.setMessage("Uploading...");
+		dialog.setIndeterminate(false);
+		dialog.setCancelable(false);
+		dialog.setMax(100);
+		dialog.setProgress(0);
+		dialog.show();
 	}
 
 	@Override
