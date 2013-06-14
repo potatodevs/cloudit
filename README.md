@@ -9,6 +9,7 @@ Uses following libraries:
 - CloudAppJava ~ https://github.com/simong/CloudAppJava
 - Apache commons-lang3-3.1 ~ http://commons.apache.org/lang/
 - aFileChooser ~ https://github.com/iPaulPro/aFileChooser
+- image-chooser-library ~ https://github.com/coomar2841/image-chooser-library
 - Crashlytics ~ http://try.crashlytics.com/sdk-android/
 
 How to build and run the project:
