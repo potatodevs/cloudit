@@ -43,6 +43,10 @@ import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.SubMenu;
 import com.actionbarsherlock.widget.ShareActionProvider;
+import com.beanie.imagechooser.api.ChooserType;
+import com.beanie.imagechooser.api.ChosenImage;
+import com.beanie.imagechooser.api.ImageChooserListener;
+import com.beanie.imagechooser.api.ImageChooserManager;
 import com.crashlytics.android.Crashlytics;
 import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
@@ -52,7 +56,7 @@ import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.tools.EmailValidator;
 
-public class BaseActivity extends SherlockActivity implements OnSharedPreferenceChangeListener {
+public class BaseActivity extends SherlockActivity implements OnSharedPreferenceChangeListener, ImageChooserListener {
 
 	static final int MENU_ITEM_ADD = 1;
 	static final int MENU_ITEM_REFRESH = 2;
@@ -67,6 +71,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	MenuItem logoutItem;
 	MenuItem aboutItem;
 	ShareActionProvider mShareActionProvider;
+	ImageChooserManager icm;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -208,10 +213,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	private static final int SELECT_IMAGE = 3;
 
 	protected void chooseImage() {
-		Intent intent = new Intent();
-		intent.setType("image/*");
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		startActivityForResult(Intent.createChooser(intent, "Select image"), SELECT_IMAGE);
+		icm.setImageChooserListener(this);
+		icm.choose();
 	}
 
 	protected void chooseFile() {
@@ -235,12 +238,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			}
 
-			if (requestCode == SELECT_IMAGE) {
-				Uri uri = data.getData();
-
-				String[] path = { getRealPathFromURI(uri) };
-
-				new FileUploadAsyncTask(BaseActivity.this).execute(path);
+			if (requestCode == ChooserType.REQUEST_PICK_PICTURE || requestCode == ChooserType.REQUEST_CAPTURE_PICTURE) {
+				icm.submit(requestCode, data);
 
 			}
 		}
@@ -265,6 +264,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.nav_blue_bg);
 		bg.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
 		getSupportActionBar().setBackgroundDrawable(bg);
+		icm = new ImageChooserManager(this, ChooserType.REQUEST_PICK_PICTURE);
 
 	}
 
@@ -366,5 +366,33 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		} else {
 			Toast.makeText(this, "No internet connection!", Toast.LENGTH_LONG).show();
 		}
+	}
+
+	@Override
+	public void onImageChosen(final ChosenImage image) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				if (image != null) {
+					// Use the image
+					// image.getFilePathOriginal();
+					// image.getFileThumbnail();
+					// image.getFileThumbnailSmall();
+					new FileUploadAsyncTask(BaseActivity.this).execute(image.getFilePathOriginal());
+				}
+			}
+		});
+	}
+
+	@Override
+	public void onError(final String reason) {
+		runOnUiThread(new Runnable() {
+
+			@Override
+			public void run() {
+				Toast.makeText(BaseActivity.this, "Error", Toast.LENGTH_SHORT).show();
+			}
+		});
 	}
 }

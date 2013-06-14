@@ -75,7 +75,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
-		Toast.makeText(act, "File uploaded!", Toast.LENGTH_LONG).show();
+		Toast.makeText(act, "File uploaded to CloudApp!", Toast.LENGTH_LONG).show();
 		act.refresh();
 	}
 
