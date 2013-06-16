@@ -391,7 +391,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			@Override
 			public void run() {
-				Toast.makeText(BaseActivity.this, "Error", Toast.LENGTH_SHORT).show();
+				Toast.makeText(BaseActivity.this, "Something went wrong. Try again.", Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
