@@ -11,11 +11,14 @@ package com.tomasvitek.android.cloudapp.threads;
 
 import java.io.File;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -112,15 +115,43 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 		dialog.show();
 	}
 
+	@SuppressLint({ "NewApi", "ServiceCast" })
 	@Override
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
-		dialog.dismiss();
-		if (!error) {
-			Toast.makeText(act, "File uploaded to CloudApp!", Toast.LENGTH_LONG).show();
-			notification();
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		boolean saveClipboard = prefs.getBoolean("save_to_clipboard", false);
+		
+		if (saveClipboard && item != null) {
+			try {
+				int sdk = android.os.Build.VERSION.SDK_INT;
+				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);			
+					clipboard.setText(item.getUrl());
+				} else {
+					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);
+					android.content.ClipData clip = android.content.ClipData.newPlainText(item.getName() + "'s url", item.getUrl());
+					clipboard.setPrimaryClip(clip);
+				}
+				message = message + " Link has been copied to the clipboard.";
+			} catch (CloudAppException e) {}
 		}
-		act.finish();
+		
+		if (normalError) 
+			Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+		else {
+			AlertDialog.Builder b = new AlertDialog.Builder(act);
+			b.setTitle("Sorry").setMessage(message)
+			    .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface d, int id) {
+						d.dismiss();
+					}
+				})
+		    	.show();
+		}
+		
+		dialog.dismiss();
 	}
 
 	@Override
