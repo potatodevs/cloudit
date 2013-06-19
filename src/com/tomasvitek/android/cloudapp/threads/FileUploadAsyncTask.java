@@ -75,7 +75,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 			Log.e("File uploaded", file.getAbsolutePath().toString());
 		} catch (CloudAppException e) {
 			if (!isSubscribed && e.getCode() == 200) {
-				message = "Sorry, it looks like you've used all your uploads for today. You can wait some time or get a subscription for CloudApp.";
+				message = "Sorry, you've reached the daily upload limit allowed by the Free plan.\nGo to my.cl.ly to buy Pro plan and never have this problem!";
 				Log.e("Error", "used all uploads");
 				normalError = false;
 			}

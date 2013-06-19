@@ -14,9 +14,11 @@ import java.util.Locale;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -30,6 +32,7 @@ import android.preference.PreferenceManager;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -78,6 +81,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	private MenuItem aboutItem;
 	private ShareActionProvider mShareActionProvider;
 	private ImageChooserManager icm;
+	BroadcastReceiver logOut;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -270,7 +274,21 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("ACTION_LOGOUT");
+		logOut = new BroadcastReceiver() {
 
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.d("onReceive", "Logout in progress");
+				Intent Loginintent = new Intent(getApplicationContext(), LoginActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY
+						| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+				startActivity(Loginintent);
+				finish();
+			}
+		};
+		registerReceiver(logOut, intentFilter);
 		setContentView(R.layout.main);
 
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
@@ -299,11 +317,16 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		app.clearCachedList();
 
-		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
-				| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction("ACTION_LOGOUT");
+		sendBroadcast(broadcastIntent);
 
-		startActivity(intent);
+	}
+
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(logOut);
+		super.onDestroy();
 	}
 
 	protected Dialog onCreateDialog(int id) {

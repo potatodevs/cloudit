@@ -14,13 +14,16 @@ import java.util.ArrayList;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -47,12 +50,29 @@ public class ListActivity extends BaseActivity {
 	ArrayList<ListItem> items;
 
 	public boolean loading = true;
-	
+	BroadcastReceiver logOut;
+
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
+
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction("ACTION_LOGOUT");
+		logOut = new BroadcastReceiver() {
+
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				Log.d("onReceive", "Logout in progress");
+				Intent Loginintent = new Intent(getApplicationContext(), LoginActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_HISTORY
+						| Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+				startActivity(Loginintent);
+				finish();
+			}
+		};
+		registerReceiver(logOut, intentFilter);
 
 		setContentView(R.layout.list);
 
@@ -64,7 +84,7 @@ public class ListActivity extends BaseActivity {
 		items = app.getList();
 
 		list.setOnScrollListener(new EndlessScrollListener(ListActivity.this, 1));
-		
+
 		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -76,8 +96,7 @@ public class ListActivity extends BaseActivity {
 				try {
 					// if (!item.getItemType().equals(CloudAppItem.Type.IMAGE))
 					// {
-					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item
-							.getContentUrl()));
+					Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(item.getContentUrl()));
 					startActivity(browserIntent);
 					/*
 					 * } else { CloudAppApplication app = (CloudAppApplication)
@@ -94,7 +113,7 @@ public class ListActivity extends BaseActivity {
 		adapter = new Adapter(ListActivity.this, items);
 
 		list.setAdapter(adapter);
-		
+
 		loading = false;
 	}
 
@@ -106,7 +125,14 @@ public class ListActivity extends BaseActivity {
 		final ListItem i = items.get(info.position);
 		try {
 			menu.setHeaderTitle(i.getName());
-		} catch (CloudAppException e) {}
+		} catch (CloudAppException e) {
+		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(logOut);
+		super.onDestroy();
 	}
 
 	@SuppressLint("ServiceCast")
@@ -133,15 +159,14 @@ public class ListActivity extends BaseActivity {
 				clipboard.setText(inDirectURL);
 			} else {
 				android.content.ClipboardManager clipboard = (android.content.ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-				android.content.ClipData clip = android.content.ClipData.newPlainText(name
-						+ "'s url", inDirectURL);
+				android.content.ClipData clip = android.content.ClipData.newPlainText(name + "'s url", inDirectURL);
 				clipboard.setPrimaryClip(clip);
 			}
-			Toast.makeText(this, "Link for '" + name + "' has been copied into your clipboard.",
-					Toast.LENGTH_SHORT).show();
+			Toast.makeText(this, "Link for '" + name + "' has been copied into your clipboard.", Toast.LENGTH_SHORT)
+					.show();
 			return true;
 		case R.id.share:
-	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			builder.setTitle("What to share?");
 			builder.setMessage("Do you want to share the file or just a link to it?");
@@ -163,12 +188,11 @@ public class ListActivity extends BaseActivity {
 
 						String where = name;
 
-						FileDownloadAsyncTask downloadFile = new FileDownloadAsyncTask(
-								ListActivity.this, mProgressDialog, where, type);
+						FileDownloadAsyncTask downloadFile = new FileDownloadAsyncTask(ListActivity.this,
+								mProgressDialog, where, type);
 						downloadFile.execute(url);
 					} else {
-						Toast.makeText(ListActivity.this, "No internet connection!",
-								Toast.LENGTH_LONG).show();
+						Toast.makeText(ListActivity.this, "No internet connection!", Toast.LENGTH_LONG).show();
 					}
 
 					dialog.dismiss();
@@ -183,8 +207,7 @@ public class ListActivity extends BaseActivity {
 					Intent shareIntent = new Intent(Intent.ACTION_SEND);
 					shareIntent.setType("text/plain");
 					shareIntent.putExtra(Intent.EXTRA_TEXT, url);
-					startActivity(Intent.createChooser(shareIntent,
-							getResources().getText(R.string.send_to)));
+					startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.send_to)));
 
 					dialog.dismiss();
 				}
@@ -196,20 +219,18 @@ public class ListActivity extends BaseActivity {
 		case R.id.delete:
 			AlertDialog.Builder b = new AlertDialog.Builder(this);
 			b.setTitle("Delete?").setMessage("Are you sure you want to delete this item?")
-			    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-			    	public void onClick(DialogInterface d, int id) {
-			    		d.dismiss();
-		    		}
-		    	})
-				.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-					public void onClick(DialogInterface d, int id) {
-						final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
-								"Deleting file...", true);
-						FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
-						del.execute(i);
-					}
-				})
-		    	.show();
+					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface d, int id) {
+							d.dismiss();
+						}
+					}).setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface d, int id) {
+							final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
+									"Deleting file...", true);
+							FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
+							del.execute(i);
+						}
+					}).show();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -234,18 +255,18 @@ public class ListActivity extends BaseActivity {
 		int index = list.getFirstVisiblePosition();
 		View v = list.getChildAt(0);
 		int top = (v == null) ? 0 : v.getTop();
-		
+
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
 		adapter = new Adapter(ListActivity.this, items);
 		list.setAdapter(adapter);
 
 		registerForContextMenu(list);
-		
+
 		loading = false;
-		
+
 		list.setSelectionFromTop(index, top);
-		
+
 		if (refreshItem.getActionView() != null) {
 			if (refreshItem.getActionView().getAnimation() != null) {
 				refreshItem.getActionView().clearAnimation();

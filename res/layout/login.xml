@@ -61,6 +61,7 @@
                 android:inputType="textPassword"
                 android:textColor="#ffffffff"
                 android:textColorHint="#ff88cee7"
+                android:textCursorDrawable="@null"
                 android:textSize="18.0sp" />
 
             <Button
