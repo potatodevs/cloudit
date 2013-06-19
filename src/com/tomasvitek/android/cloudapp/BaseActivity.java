@@ -129,12 +129,13 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 						AlertDialog.Builder alert = new AlertDialog.Builder(BaseActivity.this);
 
 						alert.setTitle("Add a bookmark");
-						alert.setMessage("Enter name and URL.");
 						// Set an EditText view to get user input
 						alert.setView(textEntryView);
 
 						final EditText input1 = (EditText) textEntryView.findViewById(R.id.title);
 						final EditText input2 = (EditText) textEntryView.findViewById(R.id.url);
+						input1.setHint("Title");
+						input2.setHint("Website URL");
 						alert.setPositiveButton("Add", new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog, int whichButton) {
 								String urlInput;
@@ -304,7 +305,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		case DIALOG_ABOUT:
 			builder.setTitle("CloudApp for Android")
 					.setMessage(
-							"Manage and share your CloudApp drops right from your Android device. \nMade by Invaders.")
+							"Manage and share your CloudApp drops right from your Android device. \nMade by Invaders. \nFor support and feedback email hi@invaders.io")
 					.setCancelable(false)
 					// .setIcon(R.drawable.icon)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
