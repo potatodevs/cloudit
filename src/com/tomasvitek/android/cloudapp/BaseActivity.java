@@ -293,6 +293,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
 		startActivity(intent);
 	}
 

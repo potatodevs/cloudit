@@ -80,7 +80,7 @@
     <dimen name="button_text_size">14.0sp</dimen>
     <dimen name="friends_nearby_text_size">14.0sp</dimen>
     <dimen name="photo_action_text_size">10.0sp</dimen>
-    <dimen name="splash_logo_top_margin">90.0dip</dimen>
+    <dimen name="splash_logo_top_margin">40.0dip</dimen>
     <dimen name="notification_thumb_icon">65.0dip</dimen>
     <dimen name="notification_big_picture_width">320.0dip</dimen>
     <dimen name="notification_big_picture_height">190.0dip</dimen>

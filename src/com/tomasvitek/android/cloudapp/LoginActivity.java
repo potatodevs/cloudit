@@ -12,10 +12,13 @@ package com.tomasvitek.android.cloudapp;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,6 +46,10 @@ public class LoginActivity extends BaseActivity {
 		getSupportActionBar().hide();
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		Button log = (Button) findViewById(R.id.loginButton);
+		TextView signUp = (TextView) findViewById(R.id.signUp);
+		signUp.setText(Html.fromHtml("<a href='http://my.cl.ly/register' style='text-decoration:none !important'>Sign up for CloudApp</a>"));
+		signUp.setMovementMethod(LinkMovementMethod.getInstance());
+		signUp.setLinkTextColor(Color.WHITE);
 		findViewById(R.id.loginLayout).requestFocus();
 		log.setOnClickListener(new OnClickListener() {
 
