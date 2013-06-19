@@ -67,7 +67,7 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 
 		if (api == null) {
 			Log.e("API", "is null!!");
-			message = "Error when uploading file. Try again.";
+			message = "Error when uploading file. Are you logged in?";
 			return null;
 		}
 
