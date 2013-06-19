@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="CloudApp" >
+            android:label="CloudUp" >
         </activity>
         <activity
             android:name=".UploadFromGalleryActivity"

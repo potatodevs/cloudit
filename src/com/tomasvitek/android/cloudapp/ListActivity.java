@@ -11,19 +11,8 @@ package com.tomasvitek.android.cloudapp;
 
 import java.util.ArrayList;
 
-import com.cloudapp.api.CloudAppException;
-import com.cloudapp.api.model.CloudAppItem;
-import com.crashlytics.android.Crashlytics;
-
-import com.tomasvitek.android.cloudapp.models.Adapter;
-import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
-import com.tomasvitek.android.cloudapp.models.ListItem;
-import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -32,7 +21,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.MenuInflater;
@@ -42,6 +30,15 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.cloudapp.api.CloudAppException;
+import com.cloudapp.api.model.CloudAppItem;
+import com.crashlytics.android.Crashlytics;
+import com.tomasvitek.android.cloudapp.models.Adapter;
+import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
+import com.tomasvitek.android.cloudapp.models.ListItem;
+import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
+import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
 
 public class ListActivity extends BaseActivity {
 
@@ -89,7 +86,6 @@ public class ListActivity extends BaseActivity {
 					 * WebViewActivity.class); startActivity(intent); }
 					 */
 				} catch (CloudAppException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
