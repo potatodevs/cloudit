@@ -20,7 +20,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
-import android.database.Cursor;
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
@@ -28,7 +27,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -62,16 +60,20 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	static final int MENU_ITEM_REFRESH = 2;
 	static final int MENU_ITEM_LOGOUT = 31;
 	static final int MENU_ITEM_ABOUT = 32;
+	static final int MENU_ITEM_SETTINGS = 33;
+	
 
 	static final int DIALOG_ABOUT = 1;
 	static final int DIALOG_LOGOUT = 2;
+	static final int DIALOG_SETTINGS = 3;
 
-	MenuItem addItem;
-	MenuItem refreshItem;
-	MenuItem logoutItem;
-	MenuItem aboutItem;
-	ShareActionProvider mShareActionProvider;
-	ImageChooserManager icm;
+	private MenuItem addItem;
+	public MenuItem refreshItem; // needs to be public, to that the animation can be started from outside
+	private MenuItem logoutItem;
+	private MenuItem settingsItem;
+	private MenuItem aboutItem;
+	private ShareActionProvider mShareActionProvider;
+	private ImageChooserManager icm;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -86,8 +88,10 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 		SubMenu sub = menu.addSubMenu("Menu");
 
-		logoutItem = sub.add(0, MENU_ITEM_LOGOUT, 0, "Log out");
 		aboutItem = sub.add(0, MENU_ITEM_ABOUT, 0, "About");
+		settingsItem = sub.add(0, MENU_ITEM_SETTINGS, 1, "Settings");
+		logoutItem = sub.add(0, MENU_ITEM_LOGOUT, 2, "Log out");
+		
 		sub.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		sub.getItem().setIcon(R.drawable.ic_action_overflow);
 
@@ -194,6 +198,9 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			showDialog(DIALOG_LOGOUT);
 		} else if (selected == MENU_ITEM_ABOUT) {
 			showDialog(DIALOG_ABOUT);
+		} else if (selected == MENU_ITEM_SETTINGS) {
+			Intent intent = new Intent(this, SettingsActivity.class);
+			startActivity(intent);
 		} else if (selected == MENU_ITEM_REFRESH) {
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			String email = prefs.getString("email", "");
@@ -210,7 +217,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	}
 
 	private static final int SELECT_FILE = 2;
-	private static final int SELECT_IMAGE = 3;
+	//private static final int SELECT_IMAGE = 3;
 
 	protected void chooseImage() {
 		icm.setImageChooserListener(this);
@@ -230,8 +237,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			if (requestCode == SELECT_FILE) {
 				Uri uri = data.getData();
-
-				Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT).show();
+				//Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT).show();
 				File file = FileUtils.getFile(uri);
 				String path = file.getAbsolutePath();
 				new FileUploadAsyncTask(BaseActivity.this).execute(path);
@@ -245,12 +251,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		}
 	}
 
-	private String getRealPathFromURI(Uri contentURI) {
+	/*private String getRealPathFromURI(Uri contentURI) {
 		Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
 		cursor.moveToFirst();
 		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
 		return cursor.getString(idx);
-	}
+	}*/
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -278,8 +284,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 
 		Editor editor = prefs.edit();
-		editor.clear();
+		editor.putString("email", "");
+		editor.putString("password", "");
 		editor.commit();
+		
+		CloudAppApplication app = (CloudAppApplication) getApplication();
+		app.clearCachedList();
 
 		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -342,9 +352,6 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	}
 
 	public void refresh() {
-		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
-		String email = prefs.getString("email", "");
-		String password = prefs.getString("password", "");
 		ConnectivityManager connMgr = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 		if (networkInfo != null && networkInfo.isConnected()) {
@@ -360,7 +367,15 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			iv.startAnimation(rotation);
 
 			refreshItem.setActionView(iv);
+			
+			CloudAppApplication app = (CloudAppApplication) getApplication();
+			
+			app.clearList();
 
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+			String email = prefs.getString("email", "");
+			String password = prefs.getString("password", "");
+			
 			String[] data = { email, password, "1" };
 			new LoginAsyncTask(BaseActivity.this).execute(data);
 		} else {

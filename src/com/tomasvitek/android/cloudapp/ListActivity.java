@@ -16,12 +16,14 @@ import com.cloudapp.api.model.CloudAppItem;
 import com.crashlytics.android.Crashlytics;
 
 import com.tomasvitek.android.cloudapp.models.Adapter;
+import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
 import com.tomasvitek.android.cloudapp.models.ListItem;
 import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,6 +49,8 @@ public class ListActivity extends BaseActivity {
 
 	ArrayList<ListItem> items;
 
+	public boolean loading = true;
+	
 	/** Called when the activity is first created. */
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +66,8 @@ public class ListActivity extends BaseActivity {
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
 
+		list.setOnScrollListener(new EndlessScrollListener(ListActivity.this, 1));
+		
 		list.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -92,12 +98,19 @@ public class ListActivity extends BaseActivity {
 		adapter = new Adapter(ListActivity.this, items);
 
 		list.setAdapter(adapter);
+		
+		loading = false;
 	}
 
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		super.onCreateContextMenu(menu, v, menuInfo);
 		MenuInflater inflater = getMenuInflater();
 		inflater.inflate(R.menu.item_menu, menu);
+		AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+		final ListItem i = items.get(info.position);
+		try {
+			menu.setHeaderTitle(i.getName());
+		} catch (CloudAppException e) {}
 	}
 
 	@SuppressLint("ServiceCast")
@@ -107,16 +120,10 @@ public class ListActivity extends BaseActivity {
 		try {
 			info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 		} catch (ClassCastException e) {
-			Log.e("ERR", "bad menuInfo", e);
 			return false;
 		}
 
-		if (info != null)
-			Log.e("position", String.valueOf(info.position));
-		else
-			Log.e("position", "NULL");
-
-		ListItem i = items.get(info.position);
+		final ListItem i = items.get(info.position);
 		final String name = i.name;
 		final String url = i.contentUrl;
 		final String inDirectURL = i.url;
@@ -191,27 +198,22 @@ public class ListActivity extends BaseActivity {
 			alert.show();
 			return true;
 		case R.id.delete:
-			/*
-			 * SharedPreferences prefs =
-			 * PreferenceManager.getDefaultSharedPreferences(this); String email
-			 * = prefs.getString("email", ""); String password =
-			 * prefs.getString("password", "");
-			 * 
-			 * DeleteAsyncTask del = new DeleteAsyncTask(i); String[] data =
-			 * {email, password}; del.execute(data);
-			 * 
-			 * CloudAppApplication app = (CloudAppApplication) getApplication();
-			 * app.removeFromList(i); items = app.getList(); adapter = new
-			 * Adapter(ListActivity.this, items); ListView list = (ListView)
-			 * findViewById(R.id.list); list.setAdapter(adapter);
-			 * 
-			 * Toast.makeText(this, name + " was deleted!",
-			 * Toast.LENGTH_SHORT).show();
-			 */
-			final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
-					"Deleting file...", true);
-			FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
-			del.execute(i);
+			AlertDialog.Builder b = new AlertDialog.Builder(this);
+			b.setTitle("Delete?").setMessage("Are you sure you want to delete this item?")
+				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface d, int id) {
+						final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
+								"Deleting file...", true);
+						FileDeleteAsyncTask del = new FileDeleteAsyncTask(ListActivity.this, dialog);
+						del.execute(i);
+					}
+				})
+			    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+			    	public void onClick(DialogInterface d, int id) {
+			    		d.dismiss();
+		    		}
+		    	})
+		    	.show();
 			return true;
 		default:
 			return super.onContextItemSelected(item);
@@ -233,15 +235,27 @@ public class ListActivity extends BaseActivity {
 	public void taskDone(String email, String password) {
 		ListView list = (ListView) findViewById(android.R.id.list);
 
+		int index = list.getFirstVisiblePosition();
+		View v = list.getChildAt(0);
+		int top = (v == null) ? 0 : v.getTop();
+		
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
 		adapter = new Adapter(ListActivity.this, items);
 		list.setAdapter(adapter);
 
 		registerForContextMenu(list);
-
-		refreshItem.getActionView().clearAnimation();
-		refreshItem.setActionView(null);
+		
+		loading = false;
+		
+		list.setSelectionFromTop(index, top);
+		
+		if (refreshItem.getActionView() != null) {
+			if (refreshItem.getActionView().getAnimation() != null) {
+				refreshItem.getActionView().clearAnimation();
+				refreshItem.setActionView(null);
+			}
+		}
 	}
 
 }

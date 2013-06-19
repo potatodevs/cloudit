@@ -16,6 +16,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudapp.api.CloudApp;
@@ -25,6 +26,7 @@ import com.cloudapp.impl.CloudAppImpl;
 import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.LoginActivity;
+import com.tomasvitek.android.cloudapp.R;
 import com.tomasvitek.android.cloudapp.models.ListItem;
 
 public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
@@ -54,27 +56,24 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 		this.dialog = dialog;
 	}
 
-	@Override
 	protected StringBuffer doInBackground(String[]... arg0) {
 
 		email = arg0[0][0];
 		password = arg0[0][1];
 		page = Integer.parseInt(arg0[0][2]);
-
-		api = new CloudAppImpl(email, password);
-
+		
 		CloudAppApplication app = (CloudAppApplication) activity.getApplication();
-		app.setCloudAppApi(api);
+		api = app.createCloudAppApi(email, password);
 
 		this.success = true;
 
-		items = new ArrayList<ListItem>();
+		items = app.getList();
 
 		// Add a new bookmark
 		try {
 			// int count = (int)api.getAccountStats().getItems();
-			int count = 10;
-			ArrayList<CloudAppItem> its = (ArrayList<CloudAppItem>) api.getItems(1, count, null, false, null);
+			int count = 40;
+			ArrayList<CloudAppItem> its = (ArrayList<CloudAppItem>) api.getItems(page, count, null, false, null);
 			for (CloudAppItem i : its) {
 				items.add(new ListItem(i));
 			}
@@ -106,6 +105,8 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 			Toast.makeText(context, "Wrong password!", Toast.LENGTH_LONG).show();
 
 			Intent intent = new Intent(activity, LoginActivity.class);
+			TextView utext = (TextView) activity.findViewById(R.id.emailField);
+			utext.setText(email);
 			activity.startActivity(intent);
 		}
 	}

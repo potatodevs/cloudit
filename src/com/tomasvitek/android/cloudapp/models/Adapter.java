@@ -20,19 +20,19 @@ import android.widget.TextView;
 
 import com.cloudapp.api.model.CloudAppItem;
 import com.tomasvitek.android.cloudapp.R;
-import com.tomasvitek.android.cloudapp.threads.ImageLoader;
+//import com.tomasvitek.android.cloudapp.threads.ImageLoader;
 
 public class Adapter extends ArrayAdapter<ListItem> {
 
 	private final Context context;
 	private final ArrayList<ListItem> values;
-	public ImageLoader imageLoader;
+	//public ImageLoader imageLoader;
 
 	public Adapter(Context context, ArrayList<ListItem> items) {
 		super(context, R.layout.list_row, items);
 		this.context = context;
 		this.values = items;
-		imageLoader = new ImageLoader(context);
+		//imageLoader = new ImageLoader(context);
 	}
 
 	@Override

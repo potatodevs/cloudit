@@ -33,12 +33,17 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:label="Login" >
+            android:label="Login"
+            android:noHistory="true" >
         </activity>
         <activity
             android:name=".WebViewActivity"
             android:label="Preview"
             android:noHistory="true" >
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="Settings" >
         </activity>
         <activity
             android:name=".ListActivity"

@@ -52,7 +52,7 @@ public class Start extends BaseActivity {
 			else {
 				ProgressDialog dialog = ProgressDialog.show(Start.this, "", "Loading...", true);
 				
-				String[] data = {email, password, "1"};
+				String[] data = { email, password, "1" };
 				new LoginAsyncTask(Start.this, dialog).execute(data);
 			}
         }

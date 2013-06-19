@@ -7,12 +7,16 @@
     <string name="login">Login</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>
-    <string name="welcomeString">Here will be logo. :)</string>
+    <string name="welcomeString">Loadin\' your stuff.</string>
     <string name="title">Title</string>
     <string name="url">URL</string>
     <string name="copylink">Copy Link</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
     <string name="send_to">Send to</string>
+    <string name="cloudapp_account">CloudApp account</string>
+    <string name="settings">Settings</string>
+    <string name="save_to_clipboard">Save a link to clipboard after every upload?</string>
+    <string name="clipboard">Save to clipboard?</string>
 
 </resources>

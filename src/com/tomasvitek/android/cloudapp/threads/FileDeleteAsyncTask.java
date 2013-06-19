@@ -16,7 +16,9 @@ import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -24,6 +26,9 @@ public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object
 
 	ProgressDialog dialog;
 	BaseActivity act;
+	
+	String message = "File was deleted";
+
 	
 	public FileDeleteAsyncTask(BaseActivity act, ProgressDialog dialog) {
 		this.act = act;
@@ -35,17 +40,25 @@ public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object
 	@Override
     protected Object doInBackground(CloudAppItem... items) {
 		try {
-			CloudApp api = ((CloudAppApplication) act.getApplication()).getCloudAppApi();
+			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+			String email = prefs.getString("email", "");
+			String password = prefs.getString("password", "");
 			
-			if (api == null)
+			CloudAppApplication app = (CloudAppApplication) act.getApplication();
+			CloudApp api = app.createCloudAppApi(email, password);
+
+			if (api == null) {
 				Log.e("API", "is null!!");
+				message = "Error when uploading file. Try again.";
+				return null;
+			}
 			
 			CloudAppItem item = items[0];		
 			
 			api.delete(item);
 		} catch (CloudAppException e) {
-			// TODO toast?
 			Log.e("Error", "when deleting file");
+			message = "Error when uploading file. Try again.";
 		}
 		
 		return null;
@@ -61,7 +74,7 @@ public class FileDeleteAsyncTask extends AsyncTask<CloudAppItem, Integer, Object
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
 		dialog.dismiss();
-		Toast.makeText(act, "File deleted!", Toast.LENGTH_LONG).show();
+		Toast.makeText(act, message, Toast.LENGTH_LONG).show();
 		act.refresh();
 	}
 

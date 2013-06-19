@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+ 
+    <!-- <PreferenceCategory android:title="@string/cloudapp_account" >
+        <EditTextPreference
+                android:title="@string/email"
+                android:summary="@string/email"
+                android:key="email"/>
+        
+        <EditTextPreference
+                android:title="@string/password"
+                android:summary="@string/password"
+                android:key="password"
+                android:inputType="textPassword"/>
+    </PreferenceCategory> -->
+     
+    <PreferenceCategory android:title="@string/settings" >
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="save_to_clipboard"
+            android:summary="@string/save_to_clipboard"
+            android:title="@string/clipboard" >
+        </CheckBoxPreference>
+    </PreferenceCategory>
+ 
+</PreferenceScreen>
