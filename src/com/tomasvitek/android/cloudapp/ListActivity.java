@@ -50,6 +50,7 @@ public class ListActivity extends BaseActivity {
 	ArrayList<ListItem> items;
 
 	public boolean loading = true;
+	BroadcastReceiver logOut;
 
 	/** Called when the activity is first created. */
 	@Override
@@ -59,7 +60,7 @@ public class ListActivity extends BaseActivity {
 
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("ACTION_LOGOUT");
-		registerReceiver(new BroadcastReceiver() {
+		logOut = new BroadcastReceiver() {
 
 			@Override
 			public void onReceive(Context context, Intent intent) {
@@ -70,7 +71,8 @@ public class ListActivity extends BaseActivity {
 				startActivity(Loginintent);
 				finish();
 			}
-		}, intentFilter);
+		};
+		registerReceiver(logOut, intentFilter);
 
 		setContentView(R.layout.list);
 
@@ -125,6 +127,12 @@ public class ListActivity extends BaseActivity {
 			menu.setHeaderTitle(i.getName());
 		} catch (CloudAppException e) {
 		}
+	}
+	
+	@Override
+	protected void onDestroy() {
+		unregisterReceiver(logOut);
+		super.onDestroy();
 	}
 
 	@SuppressLint("ServiceCast")
