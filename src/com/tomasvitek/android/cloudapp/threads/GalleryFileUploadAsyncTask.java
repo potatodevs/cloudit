@@ -17,13 +17,16 @@ import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
+import com.cloudapp.api.model.CloudAppItem;
 import com.cloudapp.api.model.CloudAppProgressListener;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.R;
@@ -39,6 +42,11 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 	private Notification mNotification;
 	private NotificationManager mNotificationManager;
 	private Boolean error;
+	String message = "File uploaded to CloudApp!";
+	boolean normalError = true;
+	CloudAppItem item = null;
+
+
 
 	public GalleryFileUploadAsyncTask(UploadFromGalleryActivity act) {
 		this.act = act;
@@ -49,34 +57,48 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 
 	@Override
 	protected Object doInBackground(String... path) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		String email = prefs.getString("email", "");
+		String password = prefs.getString("password", "");
+		
+		CloudAppApplication app = (CloudAppApplication) act.getApplication();
+		CloudApp api = app.createCloudAppApi(email, password);
+
+		boolean isSubscribed = false;
+		
+		if (api == null) {
+			Log.e("API", "is null!!");
+			message = "Error when uploading file. Try again.";
+			return null;
+		}
+		
 		try {
-			CloudApp api = ((CloudAppApplication) act.getApplication()).getCloudAppApi();
-
-			if (api == null) {
-				Log.e("API", "is null!!");
-				error = true;
-			}
-
+			isSubscribed = api.getAccountDetails().isSubscribed();
+			
 			File file = new File(path[0]);
 
-			Log.e("File uploaded", file.getAbsolutePath().toString());
-
-			api.upload(file, new CloudAppProgressListener() {
-
+			this.item = api.upload(file, new CloudAppProgressListener() {
 				@Override
 				public void transferred(long trans, long total) {
 					publishProgress((int) (((float) trans * 100f) / (float) total));
 				}
 			});
+			
+			Log.e("File uploaded", file.getAbsolutePath().toString());
 		} catch (CloudAppException e) {
-			Toast.makeText(act, "Error when uploading file. Try again.", Toast.LENGTH_LONG).show();
-			Log.e("Error", "when uploading file");
-			error = true;
+			if (!isSubscribed && e.getCode() == 200) {
+				message = "Sorry, it looks like you've used all your uploads for today. You can wait some time or get a subscription for CloudApp.";
+				Log.e("Error", "used all uploads");
+				normalError = false;
+			}
+			else {
+				message = "Error when uploading file. Try again.";
+				Log.e("Error", "when uploading file");
+			}
 		}
-
+		
 		return null;
 	}
-
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
