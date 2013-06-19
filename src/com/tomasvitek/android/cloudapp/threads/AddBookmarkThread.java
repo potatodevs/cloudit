@@ -49,7 +49,6 @@ Activity activity;
 			@SuppressWarnings("unused")
 			CloudAppItem bookmark = api.createBookmark(this.title, this.url);
 		} catch (CloudAppException e) {
-			// TODO Auto-generated catch block
 			Log.e("CloudApp", e.toString());
 		}
 		

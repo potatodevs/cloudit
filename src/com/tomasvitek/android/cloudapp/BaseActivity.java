@@ -394,10 +394,6 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			@Override
 			public void run() {
 				if (image != null) {
-					// Use the image
-					// image.getFilePathOriginal();
-					// image.getFileThumbnail();
-					// image.getFileThumbnailSmall();
 					new FileUploadAsyncTask(BaseActivity.this).execute(image.getFilePathOriginal());
 				}
 			}

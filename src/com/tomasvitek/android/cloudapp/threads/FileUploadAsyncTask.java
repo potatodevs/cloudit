@@ -12,14 +12,12 @@ package com.tomasvitek.android.cloudapp.threads;
 import java.io.File;
 
 import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
@@ -28,10 +26,8 @@ import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
 import com.cloudapp.api.model.CloudAppProgressListener;
-import com.cloudapp.impl.model.CloudAppItemImpl;
 import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
-import com.tomasvitek.android.cloudapp.ListActivity;
 
 public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
@@ -105,6 +101,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 		dialog.show();
 	}
 
+	@SuppressWarnings("deprecation")
 	@SuppressLint({ "NewApi", "ServiceCast" })
 	@Override
 	protected void onPostExecute(Object result) {
