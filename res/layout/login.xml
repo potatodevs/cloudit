@@ -4,9 +4,9 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@drawable/splash_gradient"
+    android:descendantFocusability="beforeDescendants"
     android:fadingEdge="none"
     android:fillViewport="true"
-    android:descendantFocusability="beforeDescendants"
     android:focusableInTouchMode="true" >
 
     <LinearLayout
@@ -17,22 +17,22 @@
 
         <ImageView
             android:id="@+id/loginLogo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/splash_logo_top_margin"
-            android:src="@drawable/login_logo"
-             />
+            android:layout_weight="0"
+            android:src="@drawable/login_logo" />
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/loginLogo"
             android:layout_marginLeft="15.0dip"
             android:layout_marginRight="15.0dip"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="10.0dip"
-            android:layout_below="@id/loginLogo" >
+            android:padding="10.0dip" >
 
             <EditText
                 android:id="@+id/emailField"
@@ -46,8 +46,8 @@
                 android:inputType="textEmailAddress"
                 android:textColor="#ffffffff"
                 android:textColorHint="#ff88cee7"
-                android:textSize="18.0sp"
-                android:textCursorDrawable="@null" />
+                android:textCursorDrawable="@null"
+                android:textSize="18.0sp" />
 
             <EditText
                 android:id="@+id/passwordField"
@@ -71,8 +71,17 @@
                 android:layout_marginTop="5.0dip"
                 android:gravity="center"
                 android:text="@string/login"
-                android:textColor="@color/btn_splash_text_color" />
+                android:textColor="@color/btn_splash_text_color"
+                android:textStyle="bold" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/signUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:text="Sign up for CloudApp"
+            android:textColor="@android:color/white" />
     </LinearLayout>
 
 </ScrollView>
