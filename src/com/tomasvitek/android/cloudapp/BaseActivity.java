@@ -303,7 +303,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Dialog dialog;
 		switch (id) {
 		case DIALOG_ABOUT:
-			builder.setTitle("CloudApp for Android")
+			builder.setTitle("CloudUp")
 					.setMessage(
 							"Manage and share your CloudApp drops right from your Android device. \nMade by Invaders. \nFor support and feedback email hi@invaders.io")
 					.setCancelable(false)
