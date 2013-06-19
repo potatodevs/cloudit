@@ -22,7 +22,6 @@ import android.widget.Toast;
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
-import com.cloudapp.impl.CloudAppImpl;
 import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.LoginActivity;
@@ -80,7 +79,6 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 
 			app.setList(items);
 		} catch (CloudAppException e) {
-			// TODO Auto-generated catch block
 			Log.e("CloudApp", e.toString());
 			this.success = false;
 		}

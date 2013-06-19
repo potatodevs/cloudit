@@ -80,7 +80,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0"
-            android:text="Sign up for CloudApp"
+            android:text="@string/signUp"
             android:textColor="@android:color/white" />
     </LinearLayout>
 

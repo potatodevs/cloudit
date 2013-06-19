@@ -1,4 +1,4 @@
-CloudApp for Android
+CloudUp
 =====================
 
 A private beta version of a CloudApp client for Android.
