@@ -11,19 +11,25 @@ package com.tomasvitek.android.cloudapp.threads;
 
 import java.io.File;
 
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
+import com.cloudapp.api.model.CloudAppItem;
 import com.cloudapp.api.model.CloudAppProgressListener;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.R;
@@ -39,6 +45,11 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 	private Notification mNotification;
 	private NotificationManager mNotificationManager;
 	private Boolean error;
+	String message = "File uploaded to CloudApp!";
+	boolean normalError = true;
+	CloudAppItem item = null;
+
+
 
 	public GalleryFileUploadAsyncTask(UploadFromGalleryActivity act) {
 		this.act = act;
@@ -49,34 +60,48 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 
 	@Override
 	protected Object doInBackground(String... path) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		String email = prefs.getString("email", "");
+		String password = prefs.getString("password", "");
+		
+		CloudAppApplication app = (CloudAppApplication) act.getApplication();
+		CloudApp api = app.createCloudAppApi(email, password);
+
+		boolean isSubscribed = false;
+		
+		if (api == null) {
+			Log.e("API", "is null!!");
+			message = "Error when uploading file. Try again.";
+			return null;
+		}
+		
 		try {
-			CloudApp api = ((CloudAppApplication) act.getApplication()).getCloudAppApi();
-
-			if (api == null) {
-				Log.e("API", "is null!!");
-				error = true;
-			}
-
+			isSubscribed = api.getAccountDetails().isSubscribed();
+			
 			File file = new File(path[0]);
 
-			Log.e("File uploaded", file.getAbsolutePath().toString());
-
-			api.upload(file, new CloudAppProgressListener() {
-
+			this.item = api.upload(file, new CloudAppProgressListener() {
 				@Override
 				public void transferred(long trans, long total) {
 					publishProgress((int) (((float) trans * 100f) / (float) total));
 				}
 			});
+			
+			Log.e("File uploaded", file.getAbsolutePath().toString());
 		} catch (CloudAppException e) {
-			Toast.makeText(act, "Error when uploading file. Try again.", Toast.LENGTH_LONG).show();
-			Log.e("Error", "when uploading file");
-			error = true;
+			if (!isSubscribed && e.getCode() == 200) {
+				message = "Sorry, it looks like you've used all your uploads for today. You can wait some time or get a subscription for CloudApp.";
+				Log.e("Error", "used all uploads");
+				normalError = false;
+			}
+			else {
+				message = "Error when uploading file. Try again.";
+				Log.e("Error", "when uploading file");
+			}
 		}
-
+		
 		return null;
 	}
-
 	@Override
 	protected void onPreExecute() {
 		super.onPreExecute();
@@ -90,15 +115,43 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 		dialog.show();
 	}
 
+	@SuppressLint({ "NewApi", "ServiceCast" })
 	@Override
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
-		dialog.dismiss();
-		if (!error) {
-			Toast.makeText(act, "File uploaded to CloudApp!", Toast.LENGTH_LONG).show();
-			notification();
+		
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		boolean saveClipboard = prefs.getBoolean("save_to_clipboard", false);
+		
+		if (saveClipboard && item != null) {
+			try {
+				int sdk = android.os.Build.VERSION.SDK_INT;
+				if (sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
+					android.text.ClipboardManager clipboard = (android.text.ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);			
+					clipboard.setText(item.getUrl());
+				} else {
+					android.content.ClipboardManager clipboard = (android.content.ClipboardManager) act.getSystemService(Context.CLIPBOARD_SERVICE);
+					android.content.ClipData clip = android.content.ClipData.newPlainText(item.getName() + "'s url", item.getUrl());
+					clipboard.setPrimaryClip(clip);
+				}
+				message = message + "\nLink has been copied to the clipboard.";
+			} catch (CloudAppException e) {}
 		}
-		act.finish();
+		
+		if (normalError) 
+			Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+		else {
+			AlertDialog.Builder b = new AlertDialog.Builder(act);
+			b.setTitle("Sorry").setMessage(message)
+			    .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface d, int id) {
+						d.dismiss();
+					}
+				})
+		    	.show();
+		}
+		
+		dialog.dismiss();
 	}
 
 	@Override
