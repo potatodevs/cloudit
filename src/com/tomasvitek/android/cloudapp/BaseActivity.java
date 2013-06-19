@@ -27,6 +27,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.content.IntentCompat;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -299,11 +300,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		app.clearCachedList();
 
-		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
-				| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
+		
+		Intent broadcastIntent = new Intent();
+		broadcastIntent.setAction("ACTION_LOGOUT");
+		sendBroadcast(broadcastIntent);
 
-		startActivity(intent);
+		
 	}
 
 	protected Dialog onCreateDialog(int id) {
