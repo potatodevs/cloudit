@@ -300,7 +300,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		app.clearCachedList();
 
 		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK
+				| Intent.FLAG_ACTIVITY_NO_HISTORY | Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS);
 
 		startActivity(intent);
 	}
