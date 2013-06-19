@@ -278,7 +278,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		BitmapDrawable bg = (BitmapDrawable) getResources().getDrawable(R.drawable.nav_blue_bg);
 		bg.setTileModeXY(TileMode.REPEAT, TileMode.REPEAT);
 		getSupportActionBar().setBackgroundDrawable(bg);
-		icm = new ImageChooserManager(this, ChooserType.REQUEST_PICK_PICTURE);
+		icm = new ImageChooserManager(this, ChooserType.REQUEST_PICK_PICTURE, false);
 
 	}
 
