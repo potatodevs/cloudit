@@ -18,7 +18,9 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -31,6 +33,7 @@ import com.actionbarsherlock.view.Menu;
 import com.crashlytics.android.Crashlytics;
 import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.tools.EmailValidator;
+import com.tomasvitek.android.cloudapp.tools.URLSpanNoUnderline;
 
 public class LoginActivity extends BaseActivity {
 
@@ -47,7 +50,9 @@ public class LoginActivity extends BaseActivity {
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 		Button log = (Button) findViewById(R.id.loginButton);
 		TextView signUp = (TextView) findViewById(R.id.signUp);
-		signUp.setText(Html.fromHtml("<a href='http://my.cl.ly/register' style='text-decoration:none !important'>Sign up for CloudApp</a>"));
+		Spannable signUpSpan = Spannable.Factory.getInstance().newSpannable(Html.fromHtml("<a href='http://my.cl.ly/register' style='text-decoration:none !important'>Sign up for CloudApp</a>"));
+		Spannable processedSignUpText = removeUnderlines(signUpSpan);
+		signUp.setText(processedSignUpText);
 		signUp.setMovementMethod(LinkMovementMethod.getInstance());
 		signUp.setLinkTextColor(Color.WHITE);
 		findViewById(R.id.loginLayout).requestFocus();
@@ -89,6 +94,18 @@ public class LoginActivity extends BaseActivity {
 			}
 		});
 	}
+
+	private static Spannable removeUnderlines(Spannable p_Text) {  
+        URLSpan[] spans = p_Text.getSpans(0, p_Text.length(), URLSpan.class);  
+        for (URLSpan span : spans) {  
+             int start = p_Text.getSpanStart(span);  
+             int end = p_Text.getSpanEnd(span);  
+             p_Text.removeSpan(span);  
+             span = new URLSpanNoUnderline(span.getURL());  
+             p_Text.setSpan(span, start, end, 0);  
+        }  
+        return p_Text;  
+   }  
 
 	@Override
 	public void onResume() {
