@@ -134,7 +134,7 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 					android.content.ClipData clip = android.content.ClipData.newPlainText(item.getName() + "'s url", item.getUrl());
 					clipboard.setPrimaryClip(clip);
 				}
-				message = message + " Link has been copied to the clipboard.";
+				message = message + "\nLink has been copied to the clipboard.";
 			} catch (CloudAppException e) {}
 		}
 		

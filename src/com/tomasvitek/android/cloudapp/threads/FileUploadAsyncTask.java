@@ -105,7 +105,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 		dialog.show();
 	}
 
-	@SuppressLint("NewApi")
+	@SuppressLint({ "NewApi", "ServiceCast" })
 	@Override
 	protected void onPostExecute(Object result) {
 		super.onPostExecute(result);
@@ -124,7 +124,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 					android.content.ClipData clip = android.content.ClipData.newPlainText(item.getName() + "'s url", item.getUrl());
 					clipboard.setPrimaryClip(clip);
 				}
-				message = message + " Link has been copied to the clipboard.";
+				message = message + "\nLink has been copied to the clipboard.";
 			} catch (CloudAppException e) {}
 		}
 		
