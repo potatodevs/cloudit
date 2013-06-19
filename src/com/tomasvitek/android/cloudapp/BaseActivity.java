@@ -27,6 +27,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.Animation;
@@ -61,14 +65,14 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	static final int MENU_ITEM_LOGOUT = 31;
 	static final int MENU_ITEM_ABOUT = 32;
 	static final int MENU_ITEM_SETTINGS = 33;
-	
 
 	static final int DIALOG_ABOUT = 1;
 	static final int DIALOG_LOGOUT = 2;
 	static final int DIALOG_SETTINGS = 3;
 
 	private MenuItem addItem;
-	public MenuItem refreshItem; // needs to be public, to that the animation can be started from outside
+	public MenuItem refreshItem; // needs to be public, to that the animation
+									// can be started from outside
 	private MenuItem logoutItem;
 	private MenuItem settingsItem;
 	private MenuItem aboutItem;
@@ -91,7 +95,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		aboutItem = sub.add(0, MENU_ITEM_ABOUT, 0, "About");
 		settingsItem = sub.add(0, MENU_ITEM_SETTINGS, 1, "Settings");
 		logoutItem = sub.add(0, MENU_ITEM_LOGOUT, 2, "Log out");
-		
+
 		sub.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		sub.getItem().setIcon(R.drawable.ic_action_overflow);
 
@@ -218,7 +222,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	}
 
 	private static final int SELECT_FILE = 2;
-	//private static final int SELECT_IMAGE = 3;
+
+	// private static final int SELECT_IMAGE = 3;
 
 	protected void chooseImage() {
 		icm.setImageChooserListener(this);
@@ -238,7 +243,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			if (requestCode == SELECT_FILE) {
 				Uri uri = data.getData();
-				//Toast.makeText(this, uri.getPath().toString(), Toast.LENGTH_SHORT).show();
+				// Toast.makeText(this, uri.getPath().toString(),
+				// Toast.LENGTH_SHORT).show();
 				File file = FileUtils.getFile(uri);
 				String path = file.getAbsolutePath();
 				new FileUploadAsyncTask(BaseActivity.this).execute(path);
@@ -252,12 +258,13 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		}
 	}
 
-	/*private String getRealPathFromURI(Uri contentURI) {
-		Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-		cursor.moveToFirst();
-		int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-		return cursor.getString(idx);
-	}*/
+	/*
+	 * private String getRealPathFromURI(Uri contentURI) { Cursor cursor =
+	 * getContentResolver().query(contentURI, null, null, null, null);
+	 * cursor.moveToFirst(); int idx =
+	 * cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA); return
+	 * cursor.getString(idx); }
+	 */
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -288,13 +295,13 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		editor.putString("email", "");
 		editor.putString("password", "");
 		editor.commit();
-		
+
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		app.clearCachedList();
 
 		Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
+
 		startActivity(intent);
 	}
 
@@ -303,11 +310,11 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		Dialog dialog;
 		switch (id) {
 		case DIALOG_ABOUT:
-			builder.setTitle("CloudUp")
-					.setMessage(
-							"Manage and share your CloudApp drops right from your Android device. \nMade by Invaders. \nFor support and feedback email hi@invaders.io")
-					.setCancelable(false)
-					// .setIcon(R.drawable.icon)
+			final SpannableString s = new SpannableString(
+					"Manage and share your CloudApp drops right from your Android device.\n \nFor support and feedback email hi@invaders.io.\n \nMade by Invaders.");
+			Linkify.addLinks(s, Linkify.ALL);
+			builder.setTitle("CloudUp").setMessage(s).setCancelable(false)
+			// .setIcon(R.drawable.icon)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
@@ -315,9 +322,12 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 					});
 			dialog = builder.create();
 			dialog.show();
+			((TextView) dialog.findViewById(android.R.id.message)).setMovementMethod(LinkMovementMethod.getInstance());
+
 			dialog.getWindow().getAttributes();
 			TextView textView = (TextView) dialog.findViewById(android.R.id.message);
 			textView.setTextSize(15);
+			textView.setGravity(Gravity.CENTER);
 			break;
 		case DIALOG_LOGOUT:
 			builder.setTitle("Log out?").setMessage("Are you sure you want to log out?")
@@ -325,13 +335,11 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
 						}
-					})
-					.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+					}).setPositiveButton("Log out", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							logout();
 						}
-					})
-					;
+					});
 			// .setIcon(R.drawable.icon)
 			dialog = builder.create();
 			break;
@@ -371,15 +379,15 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			iv.startAnimation(rotation);
 
 			refreshItem.setActionView(iv);
-			
+
 			CloudAppApplication app = (CloudAppApplication) getApplication();
-			
+
 			app.clearList();
 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			String email = prefs.getString("email", "");
 			String password = prefs.getString("password", "");
-			
+
 			String[] data = { email, password, "1" };
 			new LoginAsyncTask(BaseActivity.this).execute(data);
 		} else {
