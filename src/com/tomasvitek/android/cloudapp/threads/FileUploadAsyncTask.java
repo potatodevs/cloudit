@@ -13,8 +13,10 @@ import java.io.File;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -29,6 +31,7 @@ import com.cloudapp.api.model.CloudAppProgressListener;
 import com.cloudapp.impl.model.CloudAppItemImpl;
 import com.tomasvitek.android.cloudapp.BaseActivity;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
+import com.tomasvitek.android.cloudapp.ListActivity;
 
 public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
@@ -38,6 +41,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	String message = "File uploaded to CloudApp!";
 	CloudAppItem item = null;
 	
+	boolean normalError = true;
 
 	public FileUploadAsyncTask(BaseActivity act) {
 		this.act = act;
@@ -45,20 +49,24 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 	@Override
 	protected Object doInBackground(String... path) {
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
+		String email = prefs.getString("email", "");
+		String password = prefs.getString("password", "");
+		
+		CloudAppApplication app = (CloudAppApplication) act.getApplication();
+		CloudApp api = app.createCloudAppApi(email, password);
+
+		boolean isSubscribed = false;
+		
+		if (api == null) {
+			Log.e("API", "is null!!");
+			message = "Error when uploading file. Try again.";
+			return null;
+		}
+		
 		try {
-			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(act);
-			String email = prefs.getString("email", "");
-			String password = prefs.getString("password", "");
+			isSubscribed = api.getAccountDetails().isSubscribed();
 			
-			CloudAppApplication app = (CloudAppApplication) act.getApplication();
-			CloudApp api = app.createCloudAppApi(email, password);
-
-			if (api == null) {
-				Log.e("API", "is null!!");
-				message = "Error when uploading file. Try again.";
-				return null;
-			}
-
 			File file = new File(path[0]);
 
 			this.item = api.upload(file, new CloudAppProgressListener() {
@@ -70,8 +78,15 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 			
 			Log.e("File uploaded", file.getAbsolutePath().toString());
 		} catch (CloudAppException e) {
-			Log.e("Error", "when uploading file");
-			message = "Error when uploading file. Try again.";
+			if (!isSubscribed && e.getCode() == 200) {
+				message = "Sorry, it looks like you've used all your uploads for today. You can wait some time or get a subscription for CloudApp.";
+				Log.e("Error", "used all uploads");
+				normalError = false;
+			}
+			else {
+				message = "Error when uploading file. Try again.";
+				Log.e("Error", "when uploading file");
+			}
 		}
 		
 		return null;
@@ -113,7 +128,18 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 			} catch (CloudAppException e) {}
 		}
 		
-		Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+		if (normalError) 
+			Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+		else {
+			AlertDialog.Builder b = new AlertDialog.Builder(act);
+			b.setTitle("Sorry").setMessage(message)
+			    .setPositiveButton("Got it", new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface d, int id) {
+						d.dismiss();
+					}
+				})
+		    	.show();
+		}
 		
 		dialog.dismiss();
 		act.refresh();

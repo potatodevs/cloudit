@@ -145,7 +145,7 @@ public class ListActivity extends BaseActivity {
 					Toast.LENGTH_SHORT).show();
 			return true;
 		case R.id.share:
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	        AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
 			builder.setTitle("What to share?");
 			builder.setMessage("Do you want to share the file or just a link to it?");
@@ -200,7 +200,12 @@ public class ListActivity extends BaseActivity {
 		case R.id.delete:
 			AlertDialog.Builder b = new AlertDialog.Builder(this);
 			b.setTitle("Delete?").setMessage("Are you sure you want to delete this item?")
-				.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			    .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+			    	public void onClick(DialogInterface d, int id) {
+			    		d.dismiss();
+		    		}
+		    	})
+				.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
 					public void onClick(DialogInterface d, int id) {
 						final ProgressDialog dialog = ProgressDialog.show(ListActivity.this, "",
 								"Deleting file...", true);
@@ -208,11 +213,6 @@ public class ListActivity extends BaseActivity {
 						del.execute(i);
 					}
 				})
-			    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-			    	public void onClick(DialogInterface d, int id) {
-			    		d.dismiss();
-		    		}
-		    	})
 		    	.show();
 			return true;
 		default:

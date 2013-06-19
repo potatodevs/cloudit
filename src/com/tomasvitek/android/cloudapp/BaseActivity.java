@@ -319,15 +319,17 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			break;
 		case DIALOG_LOGOUT:
 			builder.setTitle("Log out?").setMessage("Are you sure you want to log out?")
-					.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog, int id) {
-							logout();
-						}
-					}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+					.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
 							dialog.dismiss();
 						}
-					});
+					})
+					.setPositiveButton("Log out", new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog, int id) {
+							logout();
+						}
+					})
+					;
 			// .setIcon(R.drawable.icon)
 			dialog = builder.create();
 			break;

@@ -16,6 +16,8 @@ import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class AddBookmarkThread implements Runnable {
@@ -35,16 +37,21 @@ Activity activity;
 	
 	@Override
 	public void run() {
-		 CloudApp api = ((CloudAppApplication) activity.getApplication()).getCloudAppApi();
+		SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+		String email = prefs.getString("email", "");
+		String password = prefs.getString("password", "");
+		
+		CloudAppApplication app = (CloudAppApplication) activity.getApplication();
+		CloudApp api = app.createCloudAppApi(email, password);
 
-	        // Add a new bookmark
-	        try {
-				@SuppressWarnings("unused")
-				CloudAppItem bookmark = api.createBookmark(this.title, this.url);
-			} catch (CloudAppException e) {
-				// TODO Auto-generated catch block
-				Log.e("CloudApp", e.toString());
-			}
+        // Add a new bookmark
+        try {
+			@SuppressWarnings("unused")
+			CloudAppItem bookmark = api.createBookmark(this.title, this.url);
+		} catch (CloudAppException e) {
+			// TODO Auto-generated catch block
+			Log.e("CloudApp", e.toString());
+		}
 		
 	}
 
