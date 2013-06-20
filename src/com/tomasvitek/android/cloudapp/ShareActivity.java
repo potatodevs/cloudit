@@ -17,7 +17,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.SharedFileUploadAsyncTask;
 
 public class ShareActivity extends Activity {
