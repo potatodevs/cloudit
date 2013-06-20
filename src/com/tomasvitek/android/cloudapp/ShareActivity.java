@@ -15,9 +15,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
+import com.tomasvitek.android.cloudapp.threads.AddBookmarkThread;
 import com.tomasvitek.android.cloudapp.threads.SharedFileUploadAsyncTask;
 
 public class ShareActivity extends Activity {
@@ -29,12 +30,11 @@ public class ShareActivity extends Activity {
 		Intent intent = getIntent();
 		String type = intent.getType();
 		intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-		
+
 		if (Intent.ACTION_SEND.equals(intent.getAction())) {
 			if ("text/plain".equals(type)) {
-	            handleSendText(intent); // Handle text being sent
-	        }
-			else {
+				handleSendText(intent); // Handle text being sent
+			} else {
 				Bundle extras = intent.getExtras();
 				if (extras.containsKey(Intent.EXTRA_STREAM)) {
 					Uri uri = (Uri) extras.getParcelable(Intent.EXTRA_STREAM);
@@ -47,26 +47,32 @@ public class ShareActivity extends Activity {
 			}
 		}
 	}
-	
+
 	void handleSendText(Intent intent) {
-	    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
-	    if (sharedText != null) {
-    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
-    		Date today = Calendar.getInstance().getTime();
-    		String date = df.format(today);
-    		
-    		File file = saveToFile(date + "_text.txt", sharedText);
-    		
-	    	if (file != null) {
-				String path = file.getAbsolutePath();
-				new SharedFileUploadAsyncTask(ShareActivity.this).execute(path);
-	    	}
-	    	else {
-	    		Toast.makeText(this, "Sorry, it seems that there was an error saving a temporary file. Try again thanks.", Toast.LENGTH_SHORT)
-				.show();
-	    		finish();
-	    	}
-	    }
+		String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+		if (URLUtil.isValidUrl(sharedText)) {
+			Thread bookmarkThread = new Thread(new AddBookmarkThread(getApplicationContext(), ShareActivity.this,
+					sharedText, sharedText));
+			bookmarkThread.start();
+		} else {
+			if (sharedText != null) {
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
+				Date today = Calendar.getInstance().getTime();
+				String date = df.format(today);
+
+				File file = saveToFile(date + "_text.txt", sharedText);
+
+				if (file != null) {
+					String path = file.getAbsolutePath();
+					new SharedFileUploadAsyncTask(ShareActivity.this).execute(path);
+				} else {
+					Toast.makeText(this,
+							"Sorry, it seems that there was an error saving a temporary file. Try again thanks.",
+							Toast.LENGTH_SHORT).show();
+					finish();
+				}
+			}
+		}
 	}
 
 	private String getRealPathFromURI(Uri contentURI) {
@@ -76,23 +82,21 @@ public class ShareActivity extends Activity {
 		return cursor.getString(idx);
 	}
 
-	public File saveToFile(String filename, String body){
-	    try
-	    {
-	        File root = new File(Environment.getExternalStorageDirectory(), "txts");
-	        if (!root.exists()) {
-	            root.mkdirs();
-	        }
-	        File file = new File(root, filename);
-	        FileWriter writer = new FileWriter(file);
-	        writer.append(body);
-	        writer.flush();
-	        writer.close();
-	        return file;
-	    }
-	    catch(IOException e) {
-	    	return null;
-    	}
-   } 	
-	
+	public File saveToFile(String filename, String body) {
+		try {
+			File root = new File(Environment.getExternalStorageDirectory(), "txts");
+			if (!root.exists()) {
+				root.mkdirs();
+			}
+			File file = new File(root, filename);
+			FileWriter writer = new FileWriter(file);
+			writer.append(body);
+			writer.flush();
+			writer.close();
+			return file;
+		} catch (IOException e) {
+			return null;
+		}
+	}
+
 }
