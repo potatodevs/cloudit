@@ -85,7 +85,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	
 	public boolean loading = true;
 	private boolean refreshAfterStart = false;
-
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 

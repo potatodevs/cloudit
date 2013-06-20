@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cloudapp.api.CloudAppException;
@@ -59,6 +60,8 @@ public class ListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		Crashlytics.start(this);
 
+		setContentView(R.layout.list);
+		
 		IntentFilter intentFilter = new IntentFilter();
 		intentFilter.addAction("ACTION_LOGOUT");
 		logOut = new BroadcastReceiver() {
@@ -75,14 +78,20 @@ public class ListActivity extends BaseActivity {
 		};
 		registerReceiver(logOut, intentFilter);
 
-		setContentView(R.layout.list);
-
 		final ListView list = (ListView) findViewById(android.R.id.list);
 
 		registerForContextMenu(list);
 
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
+		
+		TextView empty = (TextView) findViewById(android.R.id.empty);
+		if (!items.isEmpty()) {
+			empty.setVisibility(View.GONE);
+		}
+		else {
+			empty.setVisibility(View.VISIBLE);
+		}
 
 		scrollListener = new EndlessScrollListener(ListActivity.this, 1, app.hasReachedEnd());
 		
@@ -278,6 +287,14 @@ public class ListActivity extends BaseActivity {
 		items = app.getList();
 		adapter = new Adapter(ListActivity.this, items);
 		list.setAdapter(adapter);
+		
+		TextView empty = (TextView) findViewById(android.R.id.empty);
+		if (!items.isEmpty()) {
+			empty.setVisibility(View.GONE);
+		}
+		else {
+			empty.setVisibility(View.VISIBLE);
+		}
 		
 		scrollListener.setReachedEnd(app.hasReachedEnd());
 		list.setOnScrollListener(scrollListener);
