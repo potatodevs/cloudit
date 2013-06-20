@@ -1,4 +1,4 @@
-CloudUp
+Cloudit
 =====================
 
 A private beta version of a CloudApp client for Android.

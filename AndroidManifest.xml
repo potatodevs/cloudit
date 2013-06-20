@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name=".ListActivity"
-            android:label="CloudUp" >
+            android:label="Cloudit" >
         </activity>
         <activity
             android:name=".ShareActivity"

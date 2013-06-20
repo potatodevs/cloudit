@@ -338,7 +338,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			final SpannableString s = new SpannableString(
 					"Manage and share your CloudApp drops right from your Android device.\n \nFor support and feedback \nemail hi@invaders.io.\n \nMade by Invaders.\nVisit us at http://invaders.io.");
 			Linkify.addLinks(s, Linkify.ALL);
-			builder.setTitle("CloudUp").setMessage(s).setCancelable(false)
+			builder.setTitle("Cloudit").setMessage(s).setCancelable(false)
 			// .setIcon(R.drawable.icon)
 					.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 						public void onClick(DialogInterface dialog, int id) {
