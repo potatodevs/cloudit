@@ -140,19 +140,23 @@ public class SharedFileUploadAsyncTask extends AsyncTask<String, Integer, Object
 			}
 		}
 
-		if (normalError)
+		if (normalError) {
 			Toast.makeText(act, message, Toast.LENGTH_LONG).show();
+			
+			dialog.dismiss();
+			act.finish();
+		}
 		else {
+			dialog.dismiss();
+			
 			AlertDialog.Builder b = new AlertDialog.Builder(act);
 			b.setTitle("Sorry").setMessage(message).setPositiveButton("Got it", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface d, int id) {
 					d.dismiss();
+					act.finish();
 				}
 			}).show();
 		}
-
-		dialog.dismiss();
-		act.finish();
 	}
 
 	@Override
