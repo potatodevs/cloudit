@@ -166,7 +166,6 @@ public class SharedFileUploadAsyncTask extends AsyncTask<String, Integer, Object
 		dialog.setProgress(progress[0]);
 	}
 
-	@SuppressWarnings("deprecation")
 	private void notification() {
 		Intent notificationIntent = new Intent(mContext, Start.class);
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -175,7 +174,7 @@ public class SharedFileUploadAsyncTask extends AsyncTask<String, Integer, Object
 				.setSmallIcon(R.drawable.notification).setAutoCancel(true).setContentTitle("CloudUp")
 				.setContentText("File successfully uploaded.").setContentIntent(pIntent);
 		// Get current notification
-		mNotification = builder.getNotification();
+		mNotification = builder.build();
 
 		// Show the notification
 		mNotificationManager.notify(NOTIFICATION_ID, mNotification);
