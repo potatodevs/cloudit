@@ -9,7 +9,14 @@
 
 package com.tomasvitek.android.cloudapp;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -19,12 +26,11 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.os.Environment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -36,7 +42,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
 import com.crashlytics.android.Crashlytics;
@@ -45,6 +50,7 @@ import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
 import com.tomasvitek.android.cloudapp.models.ListItem;
 import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
+import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 
 public class ListActivity extends BaseActivity {
 
@@ -122,7 +128,73 @@ public class ListActivity extends BaseActivity {
 
 		loading = false;
 		
+	    // Get intent, action and MIME type
+	    Intent intent = getIntent();
+	    String action = intent.getAction();
+	    String type = intent.getType();
+
+	    if (Intent.ACTION_SEND.equals(action) && type != null) {
+	        if ("text/plain".equals(type)) {
+	            handleSendText(intent); // Handle text being sent
+	        } else if (type.startsWith("image/")) {
+	            handleSendImage(intent); // Handle single image being sent
+	        }
+	    /*} else if (Intent.ACTION_SEND_MULTIPLE.equals(action) && type != null) {
+	        if (type.startsWith("image/")) {
+	            handleSendMultipleImages(intent); // Handle multiple images being sent
+	        }*/
+	    } else {
+	        // Handle other intents, such as being started from the home screen
+	    }
+		
 		setRefreshAfterStart();
+	}
+	
+	
+	void handleSendText(Intent intent) {
+	    String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
+	    if (sharedText != null) {
+    		DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm");
+    		Date today = Calendar.getInstance().getTime();
+    		String date = df.format(today);
+    		
+    		File file = saveToFile(date + "_text.txt", sharedText);
+    		
+	    	if (file != null) {
+				String path = file.getAbsolutePath();
+				new FileUploadAsyncTask(ListActivity.this).execute(path);
+	    	}
+	    	else {
+	    		Toast.makeText(this, "Sorry, it seems that there was an error saving a temporary file. Try again thanks.", Toast.LENGTH_SHORT)
+				.show();
+	    	}
+	    }
+	}
+
+	public File saveToFile(String filename, String body){
+	    try
+	    {
+	        File root = new File(Environment.getExternalStorageDirectory(), "txts");
+	        if (!root.exists()) {
+	            root.mkdirs();
+	        }
+	        File file = new File(root, filename);
+	        FileWriter writer = new FileWriter(file);
+	        writer.append(body);
+	        writer.flush();
+	        writer.close();
+	        return file;
+	    }
+	    catch(IOException e) {
+	    	return null;
+    	}
+   }  	
+	
+	void handleSendImage(Intent intent) {
+	    Uri imageUri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+	    if (imageUri != null) {
+	        // Update UI to reflect image being shared
+	    }
 	}
 	
 	@Override
