@@ -54,7 +54,6 @@ public class ListActivity extends BaseActivity {
 	
 	EndlessScrollListener scrollListener;
 
-	public boolean loading = true;
 	BroadcastReceiver logOut;
 
 	/** Called when the activity is first created. */
@@ -122,6 +121,14 @@ public class ListActivity extends BaseActivity {
 		list.setAdapter(adapter);
 
 		loading = false;
+		
+		setRefreshAfterStart();
+	}
+	
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setRefreshAfterStart();
 	}
 
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {

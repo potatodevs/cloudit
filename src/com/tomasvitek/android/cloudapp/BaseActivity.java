@@ -82,6 +82,9 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 	private ShareActionProvider mShareActionProvider;
 	private ImageChooserManager icm;
 	BroadcastReceiver logOut;
+	
+	public boolean loading = true;
+	private boolean refreshAfterStart = false;
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -103,6 +106,11 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		sub.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 		sub.getItem().setIcon(R.drawable.ic_action_overflow);
 
+		if (refreshAfterStart) {
+			refreshAfterStart = false;
+			refresh();
+		}
+		
 		return true;
 	}
 
@@ -406,6 +414,8 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 
 			CloudAppApplication app = (CloudAppApplication) getApplication();
 
+			loading = true;
+			
 			app.clearList();
 			//app.setReachedEnd(false);
 
@@ -420,6 +430,15 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 		}
 	}
 
+	public void setRefreshAfterStart() {
+		setRefreshAfterStart(true);
+	}
+	
+	public void setRefreshAfterStart(boolean refreshAfterStart) {
+		this.refreshAfterStart = refreshAfterStart;
+		Log.i("Prepared to refresh", "");
+	}
+	
 	@Override
 	public void onImageChosen(final ChosenImage image) {
 		runOnUiThread(new Runnable() {
