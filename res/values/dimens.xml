@@ -80,7 +80,7 @@
     <dimen name="button_text_size">14.0sp</dimen>
     <dimen name="friends_nearby_text_size">14.0sp</dimen>
     <dimen name="photo_action_text_size">10.0sp</dimen>
-    <dimen name="splash_logo_top_margin">40.0dip</dimen>
+    
     <dimen name="notification_thumb_icon">65.0dip</dimen>
     <dimen name="notification_big_picture_width">320.0dip</dimen>
     <dimen name="notification_big_picture_height">190.0dip</dimen>
@@ -94,5 +94,6 @@
     <dimen name="search_section_title_padding">10.0dip</dimen>
     <dimen name="search_venue_category_size">32.0dip</dimen>
     <dimen name="activity_icon_size">22.0dip</dimen>
-    <dimen name="radar_card_height">55.0dip</dimen>
+    <dimen name="radar_card_height">55.0dip</dimen><dimen name="splash_logo_top_margin">45.0dip</dimen>
+    <dimen name="splash_logo_bottom_margin">10.0dip</dimen>
 </resources>

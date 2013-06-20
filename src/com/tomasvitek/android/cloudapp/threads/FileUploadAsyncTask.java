@@ -65,6 +65,21 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 			
 			File file = new File(path[0]);
 
+			// Get length of file in bytes
+			long fileSize = (file.length() / 1024) / 1024;
+			if (!isSubscribed && fileSize > 25) {
+				message = "Sorry, the file is too big. You have 25MB limit for your uploads.\nGo to my.cl.ly to buy Pro plan and you'll be able to upload upto 250MB files!";
+				Log.e("Error", "not subscribed, bigger than 25mb");
+				normalError = false;
+				return null;
+			}
+			if (isSubscribed && fileSize > 250) {
+				message = "Sorry, the file is too big. You can upload files upto 250MB.";
+				Log.e("Error", "subscribed, bigger than 250mb");
+				return null;
+			}
+				
+
 			this.item = api.upload(file, new CloudAppProgressListener() {
 				@Override
 				public void transferred(long trans, long total) {
