@@ -48,23 +48,19 @@
         <activity
             android:name=".ListActivity"
             android:label="CloudUp" >
-		    <intent-filter>
-		        <action android:name="android.intent.action.SEND" />
-		        <category android:name="android.intent.category.DEFAULT" />
-		        <data android:mimeType="text/plain" />
-		    </intent-filter>
         </activity>
         <activity
-            android:name=".UploadFromGalleryActivity"
+            android:name=".ShareActivity"
             android:label="Upload to CloudApp"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
-
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="image/*" />
                 <data android:mimeType="video/*" />
+                <data android:mimeType="text/plain" />
+                <data android:mimeType="*/*" />
             </intent-filter>
         </activity>
         <activity

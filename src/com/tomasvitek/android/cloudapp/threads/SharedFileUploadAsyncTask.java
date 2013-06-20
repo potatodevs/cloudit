@@ -34,12 +34,12 @@ import com.cloudapp.api.model.CloudAppProgressListener;
 import com.tomasvitek.android.cloudapp.CloudAppApplication;
 import com.tomasvitek.android.cloudapp.R;
 import com.tomasvitek.android.cloudapp.Start;
-import com.tomasvitek.android.cloudapp.UploadFromGalleryActivity;
+import com.tomasvitek.android.cloudapp.ShareActivity;
 
-public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
+public class SharedFileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 
 	ProgressDialog dialog;
-	UploadFromGalleryActivity act;
+	ShareActivity act;
 	private Context mContext;
 	private int NOTIFICATION_ID = 1;
 	private Notification mNotification;
@@ -48,7 +48,7 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 	boolean normalError = true;
 	CloudAppItem item = null;
 
-	public GalleryFileUploadAsyncTask(UploadFromGalleryActivity act) {
+	public SharedFileUploadAsyncTask(ShareActivity act) {
 		this.act = act;
 		this.mContext = act.getBaseContext();
 		mNotificationManager = (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -168,7 +168,7 @@ public class GalleryFileUploadAsyncTask extends AsyncTask<String, Integer, Objec
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-				.setSmallIcon(R.drawable.login_logo).setAutoCancel(true).setContentTitle("CloudUp")
+				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true).setContentTitle("CloudUp")
 				.setContentText("File successfully uploaded.").setContentIntent(pIntent);
 		// Get current notification
 		mNotification = builder.getNotification();

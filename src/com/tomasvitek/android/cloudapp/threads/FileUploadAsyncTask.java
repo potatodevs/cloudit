@@ -38,7 +38,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 	CloudAppItem item = null;
 	
 	boolean normalError = true;
-
+	
 	public FileUploadAsyncTask(BaseActivity act) {
 		this.act = act;
 	}
