@@ -56,7 +56,7 @@ import com.crashlytics.android.Crashlytics;
 import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
 import com.tomasvitek.android.cloudapp.R.anim;
-import com.tomasvitek.android.cloudapp.threads.AddBookmarkThread;
+import com.tomasvitek.android.cloudapp.threads.AddBookmarkAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.tools.EmailValidator;
@@ -161,16 +161,9 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 								} else {
 									urlInput = input2.getText().toString().toLowerCase(Locale.getDefault());
 								}
-								Thread bookmarkThread = new Thread(new AddBookmarkThread(getApplicationContext(),
-										BaseActivity.this, input1.getText().toString(), urlInput));
-								bookmarkThread.start();
-								try {
-									bookmarkThread.join();
-								} catch (InterruptedException e) {
-									e.printStackTrace();
-								} finally {
-									refresh();
-								}
+								
+								String[] data = { input1.getText().toString(), urlInput };
+								new AddBookmarkAsyncTask(BaseActivity.this).execute(data);
 							}
 						});
 

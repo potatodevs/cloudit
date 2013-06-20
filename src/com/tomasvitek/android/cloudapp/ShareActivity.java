@@ -18,7 +18,8 @@ import android.provider.MediaStore;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.threads.AddBookmarkThread;
+import com.tomasvitek.android.cloudapp.threads.AddBookmarkAsyncTask;
+import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.SharedFileUploadAsyncTask;
 
 public class ShareActivity extends Activity {
@@ -51,9 +52,8 @@ public class ShareActivity extends Activity {
 	void handleSendText(Intent intent) {
 		String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (URLUtil.isValidUrl(sharedText)) {
-			Thread bookmarkThread = new Thread(new AddBookmarkThread(getApplicationContext(), ShareActivity.this,
-					sharedText, sharedText));
-			bookmarkThread.start();
+			String[] data = { sharedText, sharedText };
+			new AddBookmarkAsyncTask(ShareActivity.this, true).execute(data);
 		} else {
 			if (sharedText != null) {
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd_HH-mm");

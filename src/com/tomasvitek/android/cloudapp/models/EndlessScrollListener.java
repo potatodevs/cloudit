@@ -48,7 +48,7 @@ public class EndlessScrollListener implements OnScrollListener {
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
 		final int lastItem = firstVisibleItem + visibleItemCount;
-		if (!reachedEnd && !activity.loading && lastItem == totalItemCount) {
+		if (!reachedEnd && !activity.loading && lastItem == totalItemCount && totalItemCount > visibleItemCount) {
 			
 			ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
