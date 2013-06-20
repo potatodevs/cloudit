@@ -9,14 +9,7 @@
 
 package com.tomasvitek.android.cloudapp;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -30,7 +23,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -50,7 +42,6 @@ import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
 import com.tomasvitek.android.cloudapp.models.ListItem;
 import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
 import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
 
 public class ListActivity extends BaseActivity {
 
