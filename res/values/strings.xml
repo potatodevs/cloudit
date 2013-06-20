@@ -1,9 +1,9 @@
 <resources>
 
-    <string name="app_name">CloudUp</string>
+    <string name="app_name">Cloudit</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_start">CloudUp</string>
+    <string name="title_activity_start">Cloudit</string>
     <string name="login">Login</string>
     <string name="email">E-mail</string>
     <string name="password">Password</string>

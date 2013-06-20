@@ -51,8 +51,8 @@
         </activity>
         <activity
             android:name=".ShareActivity"
-            android:label="Upload to CloudApp"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
+            android:label="Add to CloudApp"
+            android:theme="@style/DialogTheme" >
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
                 <category android:name="android.intent.category.DEFAULT" />
