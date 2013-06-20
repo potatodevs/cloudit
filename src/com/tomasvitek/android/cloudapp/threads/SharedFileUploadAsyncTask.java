@@ -172,7 +172,7 @@ public class SharedFileUploadAsyncTask extends AsyncTask<String, Integer, Object
 		notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
 		PendingIntent pIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, 0);
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-				.setSmallIcon(R.drawable.ic_launcher).setAutoCancel(true).setContentTitle("CloudUp")
+				.setSmallIcon(R.drawable.notification).setAutoCancel(true).setContentTitle("CloudUp")
 				.setContentText("File successfully uploaded.").setContentIntent(pIntent);
 		// Get current notification
 		mNotification = builder.getNotification();
