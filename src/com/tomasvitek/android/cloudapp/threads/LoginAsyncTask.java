@@ -88,7 +88,7 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 			boolean theEnd = true;
 			
 			if (!items.isEmpty()) {
-				int counter = 0;
+				int counter = 1;
 				for (CloudAppItem i : reversed) {
 					if (!items.get(items.size()-counter).getUrl().equals(i.getUrl())) {
 						theEnd = false;
