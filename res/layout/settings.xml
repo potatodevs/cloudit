@@ -14,7 +14,7 @@
                 android:inputType="textPassword"/>
     </PreferenceCategory> -->
      
-    <PreferenceCategory android:title="@string/settings" >
+    <PreferenceCategory android:title="@string/upload" >
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="save_to_clipboard"
