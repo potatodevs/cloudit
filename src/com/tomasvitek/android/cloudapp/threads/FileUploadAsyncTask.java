@@ -95,7 +95,7 @@ public class FileUploadAsyncTask extends AsyncTask<String, Integer, Object> {
 				normalError = false;
 			}
 			else {
-				message = "Error when uploading file. Try again.";
+				message = "Connection error when uploading file. Sorry, try again.";
 				Log.e("Error", "when uploading file");
 			}
 		}
