@@ -22,20 +22,34 @@ import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
 public class EndlessScrollListener implements OnScrollListener {
 
 	private int currentPage = 1;
-
 	private ListActivity activity;
+	private boolean reachedEnd = false;
 
-	public EndlessScrollListener(ListActivity activity, int currentPage) {
+	public EndlessScrollListener(ListActivity activity, int currentPage, boolean reachedEnd) {
 		this.activity = activity;
 		this.currentPage = currentPage;
+		this.reachedEnd = reachedEnd;
 	}
-
+	
+	public void setCurrentPage(int page) 
+	{
+		this.currentPage = page;
+	}
+	
+	public void setReachedEnd() {
+		this.setReachedEnd(true);
+	}
+	
+	public void setReachedEnd(boolean reachedEnd) {
+		this.reachedEnd = reachedEnd;
+	}
+	
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
 		final int lastItem = firstVisibleItem + visibleItemCount;
-		if (!activity.loading && lastItem == totalItemCount) {
-
+		if (!reachedEnd && !activity.loading && lastItem == totalItemCount) {
+			
 			ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
@@ -65,7 +79,7 @@ public class EndlessScrollListener implements OnScrollListener {
 
 				Log.i("RELOADING", "now");
 			} else {
-				Toast.makeText(activity, "Sorry, can't load anymore items. It appears there is no connection!",
+				Toast.makeText(activity, "Sorry, can't load more items. It appears there is no connection!",
 						Toast.LENGTH_LONG).show();
 			}
 		}

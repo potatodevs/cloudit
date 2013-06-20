@@ -407,6 +407,7 @@ public class BaseActivity extends SherlockActivity implements OnSharedPreference
 			CloudAppApplication app = (CloudAppApplication) getApplication();
 
 			app.clearList();
+			//app.setReachedEnd(false);
 
 			SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
 			String email = prefs.getString("email", "");

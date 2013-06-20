@@ -33,6 +33,8 @@ public class CloudAppApplication extends Application {
 	private String password = "";
 
 	private int page = 1;
+	
+	private boolean reachedEnd = false;
 
 	public void setURLToOpen(String uRLToOpen) {
 		URLToOpen = uRLToOpen;
@@ -42,6 +44,18 @@ public class CloudAppApplication extends Application {
 		return URLToOpen;
 	}
 
+	public boolean hasReachedEnd() {
+		return reachedEnd;
+	}
+	
+	public void setReachedEnd() {
+		setReachedEnd(true);
+	}
+	
+	public void setReachedEnd(boolean reachedEnd) {
+		this.reachedEnd = reachedEnd;
+	}
+	
 	public CloudApp createCloudAppApi(String email, String password) {
 		if (cloudAppApi == null || this.email != email || this.password != password) {
 			cloudAppApi = new CloudAppImpl(email, password);
@@ -50,7 +64,7 @@ public class CloudAppApplication extends Application {
 		}
 		return getCloudAppApi();
 	}
-
+	
 	public CloudApp getCloudAppApi() {
 		return cloudAppApi;
 	}

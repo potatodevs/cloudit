@@ -19,10 +19,12 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -34,6 +36,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
 import com.crashlytics.android.Crashlytics;
@@ -48,6 +51,8 @@ public class ListActivity extends BaseActivity {
 	private Adapter adapter;
 
 	ArrayList<ListItem> items;
+	
+	EndlessScrollListener scrollListener;
 
 	public boolean loading = true;
 	BroadcastReceiver logOut;
@@ -83,7 +88,9 @@ public class ListActivity extends BaseActivity {
 		CloudAppApplication app = (CloudAppApplication) getApplication();
 		items = app.getList();
 
-		list.setOnScrollListener(new EndlessScrollListener(ListActivity.this, 1));
+		scrollListener = new EndlessScrollListener(ListActivity.this, 1, app.hasReachedEnd());
+		
+		list.setOnScrollListener(scrollListener);
 
 		list.setOnItemClickListener(new OnItemClickListener() {
 
@@ -260,7 +267,10 @@ public class ListActivity extends BaseActivity {
 		items = app.getList();
 		adapter = new Adapter(ListActivity.this, items);
 		list.setAdapter(adapter);
-
+		
+		scrollListener.setReachedEnd(app.hasReachedEnd());
+		list.setOnScrollListener(scrollListener);
+		
 		registerForContextMenu(list);
 
 		loading = false;

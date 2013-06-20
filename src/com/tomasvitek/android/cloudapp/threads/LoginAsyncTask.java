@@ -10,6 +10,7 @@
 package com.tomasvitek.android.cloudapp.threads;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -67,14 +68,46 @@ public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 		this.success = true;
 
 		items = app.getList();
+		
+		if (page == 1) {
+			app.setReachedEnd(false);
+		}
 
 		// Add a new bookmark
 		try {
-			// int count = (int)api.getAccountStats().getItems();
+			//long totalItems = (int)api.getAccountStats().getItems();
+			// yeah, doesnt work :(
+			
 			int count = 40;
 			ArrayList<CloudAppItem> its = (ArrayList<CloudAppItem>) api.getItems(page, count, null, false, null);
-			for (CloudAppItem i : its) {
-				items.add(new ListItem(i));
+			
+			ArrayList<CloudAppItem> reversed = new ArrayList<CloudAppItem>(its);
+			Collections.reverse(reversed);
+			
+			
+			boolean theEnd = true;
+			
+			if (!items.isEmpty()) {
+				int counter = 0;
+				for (CloudAppItem i : reversed) {
+					if (!items.get(items.size()-counter).getUrl().equals(i.getUrl())) {
+						theEnd = false;
+						break;
+					}
+					counter++;
+				}
+			}
+			else {
+				theEnd = false;
+			}
+			
+			if (!theEnd) {
+				for (CloudAppItem i : its) {
+					items.add(new ListItem(i));
+				}
+			}
+			else {
+				app.setReachedEnd();
 			}
 
 			app.setList(items);
