@@ -70,11 +70,6 @@ public class EndlessScrollListener implements OnScrollListener {
 				String password = prefs.getString("password", "");
 
 				currentPage++;
-<<<<<<< HEAD:src/io/invaders/android/cloudit/models/EndlessScrollListener.java
-
-=======
-				
->>>>>>> 88190c3756c91e1284ebbeb2050a1b7175da3656:src/com/tomasvitek/android/cloudapp/models/EndlessScrollListener.java
 				Integer page = currentPage;
 				String[] data = { email, password, page.toString() };
 				new LoginAsyncTask(activity).execute(data);
