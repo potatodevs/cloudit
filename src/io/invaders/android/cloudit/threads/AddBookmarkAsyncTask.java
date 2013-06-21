@@ -7,8 +7,10 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
 
+import io.invaders.android.cloudit.BaseActivity;
+import io.invaders.android.cloudit.CloudAppApplication;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +22,6 @@ import android.widget.Toast;
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.BaseActivity;
-import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
 @SuppressLint("NewApi")
 public class AddBookmarkAsyncTask extends AsyncTask<String[], Integer, Object> {

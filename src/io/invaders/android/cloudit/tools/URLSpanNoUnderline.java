@@ -1,4 +1,4 @@
-package com.tomasvitek.android.cloudapp.tools;
+package io.invaders.android.cloudit.tools;
 
 import android.text.TextPaint;
 import android.text.style.URLSpan;

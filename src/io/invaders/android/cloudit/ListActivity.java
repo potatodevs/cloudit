@@ -7,7 +7,13 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
+
+import io.invaders.android.cloudit.models.Adapter;
+import io.invaders.android.cloudit.models.EndlessScrollListener;
+import io.invaders.android.cloudit.models.ListItem;
+import io.invaders.android.cloudit.threads.FileDeleteAsyncTask;
+import io.invaders.android.cloudit.threads.FileDownloadAsyncTask;
 
 import java.util.ArrayList;
 
@@ -38,11 +44,6 @@ import android.widget.Toast;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
 import com.crashlytics.android.Crashlytics;
-import com.tomasvitek.android.cloudapp.models.Adapter;
-import com.tomasvitek.android.cloudapp.models.EndlessScrollListener;
-import com.tomasvitek.android.cloudapp.models.ListItem;
-import com.tomasvitek.android.cloudapp.threads.FileDeleteAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.FileDownloadAsyncTask;
 
 public class ListActivity extends BaseActivity {
 
@@ -162,7 +163,7 @@ public class ListActivity extends BaseActivity {
 		super.onDestroy();
 	}
 
-	@SuppressLint("ServiceCast")
+	@SuppressLint({ "ServiceCast", "NewApi" })
 	@SuppressWarnings("deprecation")
 	public boolean onContextItemSelected(MenuItem item) {
 		AdapterView.AdapterContextMenuInfo info;

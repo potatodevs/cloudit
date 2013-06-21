@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.tomasvitek.android.cloudapp"
+    package="io.invaders.android.cloudit"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".Start"
+            android:name="io.invaders.android.cloudit.Start"
             android:label="@string/title_activity_start"
             android:noHistory="true" >
             <intent-filter>
@@ -32,25 +32,25 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name="io.invaders.android.cloudit.LoginActivity"
             android:label="Login"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name=".WebViewActivity"
+            android:name="io.invaders.android.cloudit.WebViewActivity"
             android:label="Preview"
             android:noHistory="true" >
         </activity>
         <activity
-            android:name=".SettingsActivity"
+            android:name="io.invaders.android.cloudit.SettingsActivity"
             android:label="Settings" >
         </activity>
         <activity
-            android:name=".ListActivity"
+            android:name="io.invaders.android.cloudit.ListActivity"
             android:label="Cloudit" >
         </activity>
         <activity
-            android:name=".ShareActivity"
+            android:name="io.invaders.android.cloudit.ShareActivity"
             android:label="Add to CloudApp"
             android:theme="@style/DialogTheme" >
             <intent-filter>

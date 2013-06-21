@@ -7,8 +7,11 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
 
+import io.invaders.android.cloudit.threads.LoginAsyncTask;
+import io.invaders.android.cloudit.tools.EmailValidator;
+import io.invaders.android.cloudit.tools.URLSpanNoUnderline;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -31,9 +34,6 @@ import android.widget.Toast;
 
 import com.actionbarsherlock.view.Menu;
 import com.crashlytics.android.Crashlytics;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-import com.tomasvitek.android.cloudapp.tools.EmailValidator;
-import com.tomasvitek.android.cloudapp.tools.URLSpanNoUnderline;
 
 public class LoginActivity extends BaseActivity {
 

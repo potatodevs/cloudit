@@ -7,13 +7,14 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
+
+import io.invaders.android.cloudit.BaseActivity;
+import io.invaders.android.cloudit.CloudAppApplication;
 
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.BaseActivity;
-import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;

@@ -7,7 +7,7 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
 
 import java.io.File;
 import android.content.Context;

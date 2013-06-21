@@ -5,7 +5,9 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.models;
+package io.invaders.android.cloudit.models;
+
+import io.invaders.android.cloudit.R;
 
 import java.util.ArrayList;
 
@@ -19,7 +21,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.R;
 //import com.tomasvitek.android.cloudapp.threads.ImageLoader;
 
 public class Adapter extends ArrayAdapter<ListItem> {

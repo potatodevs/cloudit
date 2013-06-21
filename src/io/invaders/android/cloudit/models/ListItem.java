@@ -7,7 +7,7 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.models;
+package io.invaders.android.cloudit.models;
 
 import java.io.Serializable;
 import java.util.Date;

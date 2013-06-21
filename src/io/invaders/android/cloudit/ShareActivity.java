@@ -1,4 +1,8 @@
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
+
+import io.invaders.android.cloudit.threads.AddBookmarkAsyncTask;
+import io.invaders.android.cloudit.threads.LoginAsyncTask;
+import io.invaders.android.cloudit.threads.SharedFileUploadAsyncTask;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -18,9 +22,6 @@ import android.provider.MediaStore;
 import android.webkit.URLUtil;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.threads.AddBookmarkAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.SharedFileUploadAsyncTask;
 
 public class ShareActivity extends Activity {
 

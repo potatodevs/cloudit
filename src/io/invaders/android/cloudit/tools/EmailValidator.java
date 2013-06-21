@@ -5,7 +5,7 @@
  * @author      Tomas Vitek, Yogesh Nagarur
  */
 
-package com.tomasvitek.android.cloudapp.tools;
+package io.invaders.android.cloudit.tools;
 
 public class EmailValidator {
 

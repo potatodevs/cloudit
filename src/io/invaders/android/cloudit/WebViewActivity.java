@@ -7,15 +7,15 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
 
-import com.crashlytics.android.Crashlytics;
-import com.tomasvitek.android.cloudapp.models.CustomWebViewClient;
-
+import io.invaders.android.cloudit.models.CustomWebViewClient;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.Window;
 import android.webkit.WebView;
+
+import com.crashlytics.android.Crashlytics;
 
 public class WebViewActivity extends BaseActivity {
 	private WebView webView;

@@ -7,7 +7,13 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
+
+import io.invaders.android.cloudit.R.anim;
+import io.invaders.android.cloudit.threads.AddBookmarkAsyncTask;
+import io.invaders.android.cloudit.threads.FileUploadAsyncTask;
+import io.invaders.android.cloudit.threads.LoginAsyncTask;
+import io.invaders.android.cloudit.tools.EmailValidator;
 
 import java.io.File;
 import java.util.Locale;
@@ -55,11 +61,6 @@ import com.beanie.imagechooser.api.ImageChooserManager;
 import com.crashlytics.android.Crashlytics;
 import com.ipaulpro.afilechooser.FileChooserActivity;
 import com.ipaulpro.afilechooser.utils.FileUtils;
-import com.tomasvitek.android.cloudapp.R.anim;
-import com.tomasvitek.android.cloudapp.threads.AddBookmarkAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.FileUploadAsyncTask;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-import com.tomasvitek.android.cloudapp.tools.EmailValidator;
 
 public class BaseActivity extends SherlockActivity implements OnSharedPreferenceChangeListener, ImageChooserListener {
 

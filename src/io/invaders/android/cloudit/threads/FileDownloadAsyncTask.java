@@ -7,7 +7,9 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
+
+import io.invaders.android.cloudit.ListActivity;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -16,7 +18,6 @@ import java.net.URL;
 import java.net.URLConnection;
 
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.ListActivity;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;

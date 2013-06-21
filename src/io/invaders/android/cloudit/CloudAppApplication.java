@@ -7,7 +7,9 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
+
+import io.invaders.android.cloudit.models.ListItem;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -22,7 +24,6 @@ import android.app.Application;
 
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.impl.CloudAppImpl;
-import com.tomasvitek.android.cloudapp.models.ListItem;
 
 public class CloudAppApplication extends Application {
 	private CloudApp cloudAppApi = null;

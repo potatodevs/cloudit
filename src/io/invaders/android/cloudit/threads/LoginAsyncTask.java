@@ -7,7 +7,13 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
+
+import io.invaders.android.cloudit.BaseActivity;
+import io.invaders.android.cloudit.CloudAppApplication;
+import io.invaders.android.cloudit.LoginActivity;
+import io.invaders.android.cloudit.R;
+import io.invaders.android.cloudit.models.ListItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -23,11 +29,6 @@ import android.widget.Toast;
 import com.cloudapp.api.CloudApp;
 import com.cloudapp.api.CloudAppException;
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.BaseActivity;
-import com.tomasvitek.android.cloudapp.CloudAppApplication;
-import com.tomasvitek.android.cloudapp.LoginActivity;
-import com.tomasvitek.android.cloudapp.R;
-import com.tomasvitek.android.cloudapp.models.ListItem;
 
 public class LoginAsyncTask extends AsyncTask<String[], Void, StringBuffer> {
 

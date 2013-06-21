@@ -7,7 +7,9 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
+
+import io.invaders.android.cloudit.R;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -22,8 +24,6 @@ import java.util.Map;
 import java.util.WeakHashMap;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import com.tomasvitek.android.cloudapp.R;
 
 import android.app.Activity;
 import android.content.Context;

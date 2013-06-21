@@ -1,5 +1,9 @@
-package com.tomasvitek.android.cloudapp.models;
+package io.invaders.android.cloudit.models;
 
+import io.invaders.android.cloudit.ListActivity;
+import io.invaders.android.cloudit.R;
+import io.invaders.android.cloudit.R.anim;
+import io.invaders.android.cloudit.threads.LoginAsyncTask;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
@@ -14,11 +18,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.tomasvitek.android.cloudapp.ListActivity;
-import com.tomasvitek.android.cloudapp.R;
-import com.tomasvitek.android.cloudapp.R.anim;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-
 public class EndlessScrollListener implements OnScrollListener {
 
 	private int currentPage = 1;
@@ -30,26 +29,25 @@ public class EndlessScrollListener implements OnScrollListener {
 		this.currentPage = currentPage;
 		this.reachedEnd = reachedEnd;
 	}
-	
-	public void setCurrentPage(int page) 
-	{
+
+	public void setCurrentPage(int page) {
 		this.currentPage = page;
 	}
-	
+
 	public void setReachedEnd() {
 		this.setReachedEnd(true);
 	}
-	
+
 	public void setReachedEnd(boolean reachedEnd) {
 		this.reachedEnd = reachedEnd;
 	}
-	
+
 	@Override
 	public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
 
 		final int lastItem = firstVisibleItem + visibleItemCount;
 		if (!reachedEnd && !activity.loading && lastItem == totalItemCount && totalItemCount > visibleItemCount) {
-			
+
 			ConnectivityManager connMgr = (ConnectivityManager) activity.getSystemService(Context.CONNECTIVITY_SERVICE);
 			NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
 			if (networkInfo != null && networkInfo.isConnected()) {
@@ -71,7 +69,9 @@ public class EndlessScrollListener implements OnScrollListener {
 				String email = prefs.getString("email", "");
 				String password = prefs.getString("password", "");
 
-				Integer page = currentPage + 1;
+				currentPage++;
+
+				Integer page = currentPage;
 				String[] data = { email, password, page.toString() };
 				new LoginAsyncTask(activity).execute(data);
 

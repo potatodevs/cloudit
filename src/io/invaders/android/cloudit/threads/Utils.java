@@ -5,7 +5,7 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp.threads;
+package io.invaders.android.cloudit.threads;
 
 import java.io.InputStream;
 import java.io.OutputStream;

@@ -7,9 +7,11 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
 
-import com.crashlytics.android.Crashlytics;
+import io.invaders.android.cloudit.threads.LoginAsyncTask;
+import io.invaders.android.cloudit.tools.EmailValidator;
+
 import java.util.ArrayList;
 
 import android.app.ProgressDialog;
@@ -19,8 +21,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 
 import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.threads.LoginAsyncTask;
-import com.tomasvitek.android.cloudapp.tools.EmailValidator;
+import com.crashlytics.android.Crashlytics;
 
 
 public class Start extends BaseActivity {

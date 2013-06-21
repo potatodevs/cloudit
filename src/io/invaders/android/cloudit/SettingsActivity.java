@@ -7,7 +7,7 @@
  * @author      Tomas Vitek
  */
 
-package com.tomasvitek.android.cloudapp;
+package io.invaders.android.cloudit;
 
 import android.graphics.Shader.TileMode;
 import android.graphics.drawable.BitmapDrawable;
