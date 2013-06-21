@@ -71,7 +71,9 @@ public class EndlessScrollListener implements OnScrollListener {
 				String email = prefs.getString("email", "");
 				String password = prefs.getString("password", "");
 
-				Integer page = currentPage + 1;
+				currentPage++;
+				
+				Integer page = currentPage;
 				String[] data = { email, password, page.toString() };
 				new LoginAsyncTask(activity).execute(data);
 
