@@ -21,5 +21,6 @@
     <string name="save_to_clipboard">Save a link to clipboard after every upload?</string>
     <string name="clipboard">Save to clipboard?</string>
     <string name="signUp">Sign up for CloudApp</string>
+    <string name="login_logo_description">Cloudit Logo</string>
 
 </resources>

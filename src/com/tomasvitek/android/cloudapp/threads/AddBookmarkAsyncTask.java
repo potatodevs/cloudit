@@ -9,20 +9,19 @@
 
 package com.tomasvitek.android.cloudapp.threads;
 
-import com.cloudapp.api.CloudApp;
-import com.cloudapp.api.CloudAppException;
-import com.cloudapp.api.model.CloudAppItem;
-import com.tomasvitek.android.cloudapp.BaseActivity;
-import com.tomasvitek.android.cloudapp.CloudAppApplication;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 import android.widget.Toast;
+
+import com.cloudapp.api.CloudApp;
+import com.cloudapp.api.CloudAppException;
+import com.cloudapp.api.model.CloudAppItem;
+import com.tomasvitek.android.cloudapp.BaseActivity;
+import com.tomasvitek.android.cloudapp.CloudAppApplication;
 
 @SuppressLint("NewApi")
 public class AddBookmarkAsyncTask extends AsyncTask<String[], Integer, Object> {
