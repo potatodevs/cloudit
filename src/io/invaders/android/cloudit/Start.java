@@ -25,7 +25,7 @@ import com.crashlytics.android.Crashlytics;
 
 
 public class Start extends BaseActivity {
-
+	
 	// TODO clean the cache folder for exports
 	
 	protected ArrayList<CloudAppItem> items;

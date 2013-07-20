@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
- 
-    <!-- <PreferenceCategory android:title="@string/cloudapp_account" >
+
+    <!--
+    <PreferenceCategory android:title="@string/cloudapp_account" >
         <EditTextPreference
                 android:title="@string/email"
                 android:summary="@string/email"
@@ -12,15 +13,26 @@
                 android:summary="@string/password"
                 android:key="password"
                 android:inputType="textPassword"/>
-    </PreferenceCategory> -->
-     
+    </PreferenceCategory>
+    -->
+
     <PreferenceCategory android:title="@string/upload" >
+
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="save_to_clipboard"
             android:summary="@string/save_to_clipboard"
             android:title="@string/clipboard" >
         </CheckBoxPreference>
+
+        <ListPreference
+            android:entries="@array/compression"
+            android:entryValues="@array/compression_values"
+            android:key="image_compression"
+            android:summary="@string/image_compression"
+            android:title="@string/compression"
+            android:defaultValue="0" >
+        </ListPreference>
     </PreferenceCategory>
- 
+
 </PreferenceScreen>

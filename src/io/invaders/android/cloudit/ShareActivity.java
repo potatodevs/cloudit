@@ -1,7 +1,6 @@
 package io.invaders.android.cloudit;
 
 import io.invaders.android.cloudit.threads.AddBookmarkAsyncTask;
-import io.invaders.android.cloudit.threads.LoginAsyncTask;
 import io.invaders.android.cloudit.threads.SharedFileUploadAsyncTask;
 
 import java.io.File;
@@ -12,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
@@ -50,6 +50,7 @@ public class ShareActivity extends Activity {
 		}
 	}
 
+	@SuppressLint("SimpleDateFormat")
 	void handleSendText(Intent intent) {
 		String sharedText = intent.getStringExtra(Intent.EXTRA_TEXT);
 		if (URLUtil.isValidUrl(sharedText)) {

@@ -22,5 +22,8 @@
     <string name="clipboard">Save to clipboard?</string>
     <string name="signUp">Sign up for CloudApp</string>
     <string name="login_logo_description">Cloudit Logo</string>
+    <string name="image_compression">Quality of image when uploading.</string>
+    <string name="compression">Image Compression</string>
+    <string name="default_image_compression">None</string>
 
 </resources>
